@@ -36,7 +36,7 @@ export default function App() {
   if (isError) return <div className="text-center py-8 text-red-500">Error fetching data</div>;
 
   // Фильтрация данных
-  const filteredProducts = products.filter(product => {
+    const filteredProducts = products?.filter(product => {
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
     const matchesRating = Math.round(product.rating.rate) >= ratingFilter;
