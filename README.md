@@ -15,9 +15,12 @@ Prerequisites
 Steps
 1.	Clone the repo:
 git clone https://github.com/sugrobov/fakeStore.git
+
 cd fakeStore
+
 2.	Install dependencies:
 npm install
+
 3.	Start the server:
 npm start
 
