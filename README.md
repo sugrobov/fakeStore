@@ -3,6 +3,11 @@
 - Fetch fake products with categories, prices, and ratings
 - Filtering and search implemented
 
+Stack:
+- React
+- React-query
+- Tailwind css
+
 🛠 Installation
 Prerequisites
 •	Node.js v16+
