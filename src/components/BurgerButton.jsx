@@ -1,8 +1,13 @@
 export default function BurgerButton({ onClick, isOpen }) {
+  const handleClick = (e) => {
+    e.stopPropagation();
+    onClick();
+  }
+
     return (
       <button
-        onClick={onClick}
-        className="md:hidden focus:outline-none"
+        onClick={handleClick}
+        className="md:hidden focus:outline-none z-40"
         aria-label="Toggle menu"
       >
         <div className="w-6 flex flex-col items-end">

@@ -1,16 +1,17 @@
 export default function ProductCard({ product }) {
     return (
-      <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <div className="h-48 overflow-hidden">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300
+      h-full flex flex-col">
+        <div className="h-48 sm:h-56 md:h64  overflow-hidden">
           <img
             src={product.image}
             alt={product.title}
             className="w-full h-full object-contain p-4"
           />
         </div>
-        <div className="p-4">
+        <div className="p-4 flex-grow flex flex-col">
           <h3 className="font-semibold text-lg mb-2 line-clamp-2">{product.title}</h3>
-          <p className="text-gray-600 text-sm mb-3 line-clamp-3">{product.description}</p>
+          <p className="text-gray-600 text-sm mb-3 line-clamp-3 flex-grow">{product.description}</p>
           <div className="flex items-center mb-2">
             {[...Array(5)].map((_, i) => (
               <svg

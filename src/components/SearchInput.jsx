@@ -6,7 +6,7 @@ export default function SearchInput({ value, onChange }) {
   const debouncedValue = useDebounce(displayValue, 500);
 
   useEffect(() => {
-    onChange(debouncedValue)
+    onChange(debouncedValue.trim())
   }, [debouncedValue, onChange]);
 
   const handleClear = () => {
@@ -14,12 +14,16 @@ export default function SearchInput({ value, onChange }) {
     onChange('');
   }
 
+  const handleChange = (e) => {
+    setDisplayValue(e.target.value.trim());
+  }
+
   return (
     <div className="relative">
       <input
         type="text"
         value={displayValue}
-        onChange={(e) => setDisplayValue(e.target.value)}
+        onChange={handleChange}
         placeholder="Search products..."
         className="w-full p-2 pl-10 border rounded"
       />
