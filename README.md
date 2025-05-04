@@ -16,13 +16,14 @@ Steps
 1.	Clone the repo:
 git clone https://github.com/sugrobov/fakeStore.git
 
+2. Change path:
 cd fakeStore
 
-2.	Install dependencies:
+3.	Install dependencies:
 npm install
 
-3.	Start the server:
-npm start
+4.	Start the server:
+npm run dev
 
 
 
