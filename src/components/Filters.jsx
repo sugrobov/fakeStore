@@ -1,4 +1,3 @@
-
 export default function Filters({
   categories,
   selectedCategory,
@@ -16,48 +15,44 @@ export default function Filters({
     onCategoryChange('all');
   };
 
-  /**
-   * автоматическая корректировка цен, если пользователь пытается установить min > max или max < min
-   * @param {*} index === 0 - минимальное значение, index === 1 - максимальное значение
-   * @param {*} value  текущее значение цены
-   * 
-   */
   const handlePriceChange = (index, value) => {
     const newValue = parseInt(value);
-      
-      if (index === 0) { // Изменение минимального значения
-        if (newValue > priceRange[1]) {
-          onPriceChange([newValue, newValue]);
-        } else {
-          onPriceChange([newValue, priceRange[1]]);
-        }
-      } else { // Изменение максимального значения
-        if (newValue < priceRange[0]) {
-          onPriceChange([newValue, newValue]);
-        } else {
-          onPriceChange([priceRange[0], newValue]);
-        }
-      }
-
+    if (index === 0) {
+      onPriceChange(newValue > priceRange[1] ? [newValue, newValue] : [newValue, priceRange[1]]);
+    } else {
+      onPriceChange(newValue < priceRange[0] ? [newValue, newValue] : [priceRange[0], newValue]);
+    }
   };
+
+  const handleClearPrice = () => {
+    onPriceChange([0, 1000]);
+  };
+
+  const isPriceChanged = priceRange[0] !== 0 || priceRange[1] !== 1000;
+  const showRatingClear = ratingFilter > 0;
+
+  // кнопоки Clear
+  const clearButtonStyle = "text-sm px-3 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-full transition-colors duration-200 flex items-center justify-center";
+
+  // Фиксированная высота для строк заголовков
+  const headerRowStyle = "flex justify-between items-center mb-2 h-10";
 
   return (
     <div className="space-y-6">
       {/* Фильтр по категориям */}
       <div>
-        <div className="flex justify-between items-center mb-2">
+        <div className={headerRowStyle}>
           <h3 className="font-medium text-gray-700">Categories</h3>
-          {selectedCategory !== 'all' && (
-            <button
-              onClick={handleClearCategory}
-              className="text-sm px-3 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-full transition-colors duration-200 flex items-center"
-            >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-              Clear
-            </button>
-          )}
+          <div className="w-20 h-8 flex justify-end">
+            {selectedCategory !== 'all' && (
+              <button onClick={handleClearCategory} className={clearButtonStyle}>
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Clear
+              </button>
+            )}
+          </div>
         </div>
         <select
           value={selectedCategory}
@@ -74,77 +69,78 @@ export default function Filters({
       </div>
 
       {/* Фильтр по цене */}
-      <div className="space-y-3">
-        <div className="flex items-baseline">
-          <h3 className="font-medium text-gray-700 whitespace-nowrap">Price Range:</h3>
-          <span className="ml-2 font-semibold text-blue-600 whitespace-nowrap">
-            ${priceRange[0]} - ${priceRange[1]}
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <div className="flex justify-between text-sm text-gray-500">
-              <span>Min</span>
-              <span className="font-medium">${priceRange[0]}</span>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="1000"
-              step="10"
-              value={priceRange[0]}
-              onChange={(e) => handlePriceChange(0, e.target.value)}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex justify-between text-sm text-gray-500">
-              <span>Max</span>
-              <span className="font-medium">${priceRange[1]}</span>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="1000"
-              step="10"
-              value={priceRange[1]}
-              onChange={(e) => onPriceChange([priceRange[0], parseInt(e.target.value)])}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
-            />
+      <div>
+        <div className={headerRowStyle}>
+          <h3 className="font-medium text-gray-700">Price Range</h3>
+          <div className="w-20 h-8 flex justify-end">
+            {isPriceChanged && (
+              <button onClick={handleClearPrice} className={clearButtonStyle}>
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Clear
+              </button>
+            )}
           </div>
         </div>
 
-        <div className="flex justify-between text-xs text-gray-400 pt-1">
-          <span>$0</span>
-          <span>$500</span>
-          <span>$1000</span>
+        <div className="bg-blue-50 rounded-lg p-4">
+          <div className="flex justify-between items-center mb-3">
+            <span className="font-semibold text-blue-600">${priceRange[0]}</span>
+            <span className="text-gray-400 mx-2">to</span>
+            <span className="font-semibold text-blue-600">${priceRange[1]}</span>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                step="10"
+                value={priceRange[0]}
+                onChange={(e) => handlePriceChange(0, e.target.value)}
+                className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                step="10"
+                value={priceRange[1]}
+                onChange={(e) => handlePriceChange(1, e.target.value)}
+                className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-between text-xs text-gray-500 mt-2">
+            <span>$0</span>
+            <span>$500</span>
+            <span>$1000</span>
+          </div>
         </div>
       </div>
 
       {/* Фильтр по рейтингу */}
       <div>
-        <div className="flex justify-between items-center mb-3">
+        <div className={headerRowStyle}>
           <h3 className="font-medium text-gray-700">
             Minimum Rating
-            {ratingFilter > 0 && (
-              <span className="ml-2 text-yellow-500">
-                ({ratingFilter}+)
-              </span>
-            )}
+            {ratingFilter > 0 && <span className="ml-2 text-yellow-500">({ratingFilter}+)</span>}
           </h3>
-          {ratingFilter > 0 && (
-            <button
-              onClick={() => onRatingChange(0)}
-              className="text-sm px-3 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-full transition-colors duration-200 flex items-center"
-            >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-              Clear
-            </button>
-          )}
+          <div className="w-20 h-8 flex justify-end">
+            {showRatingClear && (
+              <button onClick={() => onRatingChange(0)} className={clearButtonStyle}>
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Clear
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -154,10 +150,9 @@ export default function Filters({
               type="button"
               onClick={() => handleRatingClick(rating)}
               className={`px-3 py-2 rounded-lg flex items-center justify-center ${ratingFilter === rating
-                ? 'bg-yellow-100 border-2 border-yellow-400 shadow-sm'
-                : 'bg-gray-100 hover:bg-gray-200 border border-gray-200'
+                  ? 'bg-yellow-100 border-2 border-yellow-400 shadow-sm'
+                  : 'bg-gray-100 hover:bg-gray-200 border border-gray-200'
                 } transition-all duration-200 min-w-[3rem]`}
-              aria-label={`Rating ${rating}`}
             >
               <div className="flex items-center">
                 <svg
