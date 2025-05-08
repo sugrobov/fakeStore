@@ -15,7 +15,7 @@ export default function SearchInput({ value, onChange }) {
   }
 
   const handleChange = (e) => {
-    setDisplayValue(e.target.value.trim());
+    setDisplayValue(e.target.value);
   }
 
   return (
