@@ -25,5 +25,7 @@ npm install
 4.	Start the server:
 npm run dev
 
+Demo: https://f1sr25.netlify.app/
+
 
 
