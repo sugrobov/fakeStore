@@ -9,10 +9,10 @@ import Filters from './components/Filters';
 import SearchInput from './components/SearchInput';
 import Sidebar from './components/Sidebar';
 import BurgerButton from './components/BurgerButton';
-
 import useIsMobile from './hooks/useIsMobile';
 
 import ProductDetail from './components/ProductDetail';
+import AppRoutes from './components/AppRoutes';
 
 
 import { ITEMS_PER_PAGE } from './constants';
@@ -25,14 +25,14 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const { data: products, isLoading, isError } = useQuery({ 
-    queryKey: ['products'], 
-    queryFn: fetchProducts 
+  const { data: products, isLoading, isError } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts
   });
 
-  const { data: categories } = useQuery({ 
-    queryKey: ['categories'], 
-    queryFn: fetchCategories 
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories
   });
 
   useEffect(() => {
@@ -56,10 +56,10 @@ export default function App() {
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
     const matchesRating = Math.round(product.rating.rate) >= ratingFilter;
-    const matchesSearch = searchQuery === '' || 
-                        product.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) || 
-                        product.description.toLowerCase().includes(searchQuery.trim().toLowerCase());
-    
+    const matchesSearch = searchQuery === '' ||
+      product.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.trim().toLowerCase());
+
     return matchesCategory && matchesPrice && matchesRating && matchesSearch;
   });
 
@@ -82,7 +82,7 @@ export default function App() {
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}>
           <div className="space-y-6">
             <SearchInput value={searchQuery} onChange={setSearchQuery} />
-            
+
             <Filters
               categories={categories}
               selectedCategory={selectedCategory}
@@ -97,32 +97,14 @@ export default function App() {
 
         {/* Основной контент */}
         <main className="flex-1 md:ml-6">
-          <Routes>
-            <Route path="/" element={
-              <>
-                {paginatedProducts.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    {paginatedProducts.map(product => (
-                      <ProductCard key={product.id} product={product} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12 text-gray-500">
-                    No products found
-                  </div>
-                )}
+          <AppRoutes
+            paginatedProducts={paginatedProducts}
+            totalPages={totalPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            filteredProducts={filteredProducts}
+          />
 
-                {totalPages > 1 && filteredProducts.length > 0 && (
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                  />
-                )}
-              </>
-            } />
-            <Route path="/product/:id" element={<ProductDetail />} />
-          </Routes>
         </main>
       </div>
     </div>
