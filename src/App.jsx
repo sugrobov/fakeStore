@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Routes, Route } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from './services/api';
+
 import ProductCard from './components/ProductCard';
 import Pagination from './components/Pagination';
 import Filters from './components/Filters';
@@ -10,8 +12,10 @@ import BurgerButton from './components/BurgerButton';
 
 import useIsMobile from './hooks/useIsMobile';
 
+import ProductDetail from './components/ProductDetail';
 
-const ITEMS_PER_PAGE = 5;
+
+import { ITEMS_PER_PAGE } from './constants';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -93,25 +97,32 @@ export default function App() {
 
         {/* Основной контент */}
         <main className="flex-1 md:ml-6">
-          {paginatedProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-              {paginatedProducts.map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 text-gray-500">
-              No products found
-            </div>
-          )}
+          <Routes>
+            <Route path="/" element={
+              <>
+                {paginatedProducts.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    {paginatedProducts.map(product => (
+                      <ProductCard key={product.id} product={product} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-gray-500">
+                    No products found
+                  </div>
+                )}
 
-          {totalPages > 1 && filteredProducts.length > 0 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          )}
+                {totalPages > 1 && filteredProducts.length > 0 && (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
+                )}
+              </>
+            } />
+            <Route path="/product/:id" element={<ProductDetail />} />
+          </Routes>
         </main>
       </div>
     </div>
