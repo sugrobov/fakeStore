@@ -5,7 +5,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
           <button
             onClick={() => onPageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="px-3 py-1 rounded border disabled:opacity-50"
+            className="px-3 py-1 rounded border hover:cursor-pointer disabled:opacity-50"
           >
             &lt;
           </button>
@@ -23,7 +23,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
           <button
             onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
-            className="px-3 py-1 rounded border disabled:opacity-50"
+            className="px-3 py-1 rounded border hover:cursor-pointer disabled:opacity-50"
           >
             &gt;
           </button>
