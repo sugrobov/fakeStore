@@ -96,7 +96,7 @@ export default function Filters({
               <input
                 type="range"
                 min="0"
-                max="1000"
+                max="10000"
                 step="10"
                 value={priceRange[0]}
                 onChange={(e) => handlePriceChange(0, e.target.value)}
@@ -107,7 +107,7 @@ export default function Filters({
               <input
                 type="range"
                 min="0"
-                max="1000"
+                max="10000"
                 step="10"
                 value={priceRange[1]}
                 onChange={(e) => handlePriceChange(1, e.target.value)}
@@ -143,17 +143,16 @@ export default function Filters({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 h-[54px] items-center">
           {[1, 2, 3, 4, 5].map(rating => (
             <button
               key={rating}
               type="button"
               onClick={() => handleRatingClick(rating)}
-              className={`px-3 py-2 rounded-lg flex items-center justify-center min-w-[3rem] ${ratingFilter === rating
+              className={`px-3 py-2 rounded-lg flex items-center justify-center min-w-[3rem] h-[42px] ${ratingFilter === rating
                 ? 'bg-yellow-100 border-2 border-yellow-400 shadow-sm'
                 : 'bg-gray-100 hover:bg-gray-200 border border-gray-200'
                 } transition-colors duration-200`}
-              style={{ boxSizing: 'border-box' }}
             >
               <div className="flex items-center">
                 <svg

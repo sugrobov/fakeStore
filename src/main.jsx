@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
-import App from './App.jsx';
+import App from './containers/App';
 
 // import ProductDetail from './components/ProductDetail.jsx';
 
@@ -25,9 +25,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-      <App />
+        <App />
       </BrowserRouter>
-     
+
     </QueryClientProvider>
   </StrictMode>,
 )

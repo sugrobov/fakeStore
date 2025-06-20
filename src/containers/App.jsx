@@ -1,21 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 // import { Routes, Route } from 'react-router-dom';
-import { fetchProducts, fetchCategories } from './services/api';
+import { fetchProducts, fetchCategories } from '../services/api';
 
 // import ProductCard from './components/ProductCard';
 // import Pagination from './components/Pagination';
-import Filters from './components/Filters';
-import SearchInput from './components/SearchInput';
-import Sidebar from './components/Sidebar';
-import BurgerButton from './components/BurgerButton';
-import useIsMobile from './hooks/useIsMobile';
+import Filters from '../components/Filters';
+import SearchInput from '../components/SearchInput';
+import Sidebar from '../components/Sidebar';
+import BurgerButton from '../components/BurgerButton';
+import useIsMobile from '../hooks/useIsMobile';
 
 // import ProductDetail from './components/ProductDetail';
-import AppRoutes from './components/AppRoutes';
+import AppRoutes from '../components/AppRoutes';
 
 
-import { ITEMS_PER_PAGE } from './constants';
+import { ITEMS_PER_PAGE } from '../constants';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);

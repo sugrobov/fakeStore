@@ -5,11 +5,11 @@ export const routesConfig = (props) => [
     {
         path: '/',
         element: <ProductList {...props} />,
-        exact: true
+        // exact: true
     },
     {
         path: '/product/:id',
         element: <ProductDetail />,
-        exact: true
+        // exact: true
     }
 ]
