@@ -11,5 +11,15 @@ export const routesConfig = (props) => [
         path: '/product/:id',
         element: <ProductDetail />,
         // exact: true
+    },
+    {
+        path: '/link2',
+        element: "tango mashik",
+        // exact: true
+    },
+    {
+        path: '/link3',
+        element: "teplomashik",
+        // exact: true
     }
 ]
