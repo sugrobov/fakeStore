@@ -16,6 +16,7 @@ import AppRoutes from '../components/AppRoutes';
 
 
 import { ITEMS_PER_PAGE } from '../constants';
+import Navigation from '../components/Navigation';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,39 +50,41 @@ export default function App() {
 
 
   if (productsLoading || categoriesLoading) {
-  return <div className="text-center py-8">Loading...</div>;
-}
+    return <div className="text-center py-8">Loading...</div>;
+  }
 
-if (productsError || categoriesError) {
-  return <div className="text-center py-8 text-red-500">Error fetching data</div>;
-}
+  if (productsError || categoriesError) {
+    return <div className="text-center py-8 text-red-500">Error fetching data</div>;
+  }
   // Фильтрация данных
   const filteredProducts = (products || []).filter(product => {
-  const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-  const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-  const matchesRating = Math.round(product.rating) >= ratingFilter; // DummyJSON: rating - число
-  const matchesSearch = searchQuery === '' ||
-    product.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
-    product.description.toLowerCase().includes(searchQuery.trim().toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+    const matchesRating = Math.round(product.rating) >= ratingFilter; // DummyJSON: rating - число
+    const matchesSearch = searchQuery === '' ||
+      product.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.trim().toLowerCase());
 
-  return matchesCategory && matchesPrice && matchesRating && matchesSearch;
-});
+    return matchesCategory && matchesPrice && matchesRating && matchesSearch;
+  });
 
-// Пагинация
-const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
-const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  // Пагинация
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-7xl">
-          <h1 className="text-2xl font-bold text-gray-800">FakeStore</h1>
+          <div className="flex items-center space-x-8">
+            <h1 className="text-2xl font-bold text-gray-800">FakeStore</h1>
+            <Navigation />
+          </div>
           <BurgerButton onClick={toggleSidebar} isOpen={isSidebarOpen} />
         </div>
       </header>
-
       <div className="mx-auto px-4 py-8 flex flex-col md:flex-row max-w-7xl">
         {/* Sidebar для фильтров (скрывается на мобильных) */}
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}>
