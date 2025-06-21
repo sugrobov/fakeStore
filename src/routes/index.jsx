@@ -14,7 +14,7 @@ export const routesConfig = (props) => [
     },
     {
         path: '/link2',
-        element: "tango mashik",
+        element: "tangomashik",
         // exact: true
     },
     {
