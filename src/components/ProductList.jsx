@@ -1,12 +1,15 @@
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
-function ProductList({
+import { useOutletContext } from "react-router-dom";
+function ProductList() {
+    const { 
     paginatedProducts,
     totalPages,
     currentPage,
     setCurrentPage,
     filteredProducts
-}) {
+  } = useOutletContext();
+
     return (
         <>
             {

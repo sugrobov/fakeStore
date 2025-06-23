@@ -12,12 +12,14 @@ import Sidebar from '../components/Sidebar';
 import useIsMobile from '../hooks/useIsMobile';
 
 // import ProductDetail from './components/ProductDetail';
-import AppRoutes from '../components/AppRoutes';
+// import AppRoutes from '../components/AppRoutes';
+import { Outlet } from 'react-router-dom';
 
 
 import { ITEMS_PER_PAGE } from '../constants';
 // import Navigation from '../components/Navigation';
 import Header from '../components/Header';
+// import MainLayout from '../components/MainLayout';
 
 
 export default function App() {
@@ -99,14 +101,22 @@ export default function App() {
 
         {/* Основной контент */}
         <main className="flex-1 md:ml-6">
-          <AppRoutes
+          {/* <AppRoutes
             paginatedProducts={paginatedProducts}
             totalPages={totalPages}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             filteredProducts={filteredProducts}
-          />
-
+          /> */}
+         
+             <Outlet context={{
+            paginatedProducts,
+            totalPages,
+            currentPage,
+            setCurrentPage,
+            filteredProducts
+          }} />
+        
         </main>
       </div>
     </div>

@@ -1,5 +1,8 @@
 import ProductList from "../components/ProductList";
 import ProductDetail from "../components/ProductDetail";
+import MainLayout from "../components/MainLayout";
+import App from "../containers/App";
+
 
 /**
  * Конфигурация маршрутов
@@ -9,26 +12,32 @@ import ProductDetail from "../components/ProductDetail";
  */
 
 
-export const routesConfig = (props) => [
+export const routesConfig = () => [
   {
     path: '/',
-    element: <ProductList {...props} />,
-
-  },
-  {
-    path: '/product/:id',
-    element: <ProductDetail />,
-
-  },
-  {
-    path: '/link2',
-    element: "tangomashik",
-
-  },
-  {
-    path: '/link3',
-    element: "teplomashik",
-
+    element: <App />,
+    children: [
+      {
+        index: true,
+        element: <ProductList />,
+      },
+      {
+        path: 'products/:id',
+        element: <ProductDetail />,
+      },
+      {
+        path: '/link2',
+        element: 'teplomashik',
+      },
+      {
+        path: '/link3',
+        element: 'teplomashik3',
+      },
+      {
+        path: '*',
+        element: '404',
+      }
+    ]
   }
 ];
 
