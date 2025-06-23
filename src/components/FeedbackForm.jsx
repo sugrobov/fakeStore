@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Breadcrumbs from './Breadcrumbs';
 export default function FeedbackForm() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -19,7 +20,7 @@ export default function FeedbackForm() {
       [name]: value
     }));
     
-    // Clear error when user types
+    // очищаем ошибку при изменении поля
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -92,6 +93,7 @@ export default function FeedbackForm() {
   if (submitSuccess) {
     return (
       <div className="max-w-md mx-auto p-6 bg-green-50 rounded-lg border border-green-200">
+        <Breadcrumbs currentPage="Обратная связь" />
         <div className="flex items-center">
           <svg className="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
@@ -111,6 +113,7 @@ export default function FeedbackForm() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <Breadcrumbs currentPage="Обратная связь" />
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Форма обратной связи</h2>
       
       {errors.submit && (
