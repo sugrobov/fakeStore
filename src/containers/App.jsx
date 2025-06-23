@@ -8,7 +8,7 @@ import { fetchProducts, fetchCategories } from '../services/api';
 import Filters from '../components/Filters';
 import SearchInput from '../components/SearchInput';
 import Sidebar from '../components/Sidebar';
-import BurgerButton from '../components/BurgerButton';
+// import BurgerButton from '../components/BurgerButton';
 import useIsMobile from '../hooks/useIsMobile';
 
 // import ProductDetail from './components/ProductDetail';
@@ -16,7 +16,9 @@ import AppRoutes from '../components/AppRoutes';
 
 
 import { ITEMS_PER_PAGE } from '../constants';
-import Navigation from '../components/Navigation';
+// import Navigation from '../components/Navigation';
+import Header from '../components/Header';
+
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,15 +78,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-7xl">
-          <div className="flex items-center space-x-8">
-            <h1 className="text-2xl font-bold text-gray-800">FakeStore</h1>
-            <Navigation />
-          </div>
-          <BurgerButton onClick={toggleSidebar} isOpen={isSidebarOpen} />
-        </div>
-      </header>
+      <Header toggleSidebar={toggleSidebar} isOpen={isSidebarOpen} />
       <div className="mx-auto px-4 py-8 flex flex-col md:flex-row max-w-7xl">
         {/* Sidebar для фильтров (скрывается на мобильных) */}
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}>
