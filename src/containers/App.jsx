@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Outlet } from 'react-router-dom';
 // import { Routes, Route } from 'react-router-dom';
 import { fetchProducts, fetchCategories } from '../services/api';
 
@@ -8,19 +9,12 @@ import { fetchProducts, fetchCategories } from '../services/api';
 import Filters from '../components/Filters';
 import SearchInput from '../components/SearchInput';
 import Sidebar from '../components/Sidebar';
-// import BurgerButton from '../components/BurgerButton';
+import Header from '../components/Header';
+
 import useIsMobile from '../hooks/useIsMobile';
 
-// import ProductDetail from './components/ProductDetail';
-// import AppRoutes from '../components/AppRoutes';
-import { Outlet } from 'react-router-dom';
 
-
-import { ITEMS_PER_PAGE } from '../constants';
-// import Navigation from '../components/Navigation';
-import Header from '../components/Header';
-// import MainLayout from '../components/MainLayout';
-
+import { ITEMS_PER_PAGE } from '../config';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -101,22 +95,14 @@ export default function App() {
 
         {/* Основной контент */}
         <main className="flex-1 md:ml-6">
-          {/* <AppRoutes
-            paginatedProducts={paginatedProducts}
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            filteredProducts={filteredProducts}
-          /> */}
-         
-             <Outlet context={{
+          <Outlet context={{
             paginatedProducts,
             totalPages,
             currentPage,
             setCurrentPage,
             filteredProducts
           }} />
-        
+
         </main>
       </div>
     </div>
