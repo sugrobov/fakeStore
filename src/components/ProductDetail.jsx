@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchProduct } from "../services/api";
 import { useParams, Link } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -16,13 +17,7 @@ function ProductDetail() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-6 text-sm text-gray-600">
-        <div className="flex items-center gap-2">
-          <Link to="/" className="text-blue-600 hover:text-blue-800 hover:underline">
-            Главная
-          </Link>
-          <span>/</span>
-          <span className="text-gray-500">{product?.title}</span>
-        </div>
+        <Breadcrumbs currentPage={product?.title} />
       </div>
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="md:flex">

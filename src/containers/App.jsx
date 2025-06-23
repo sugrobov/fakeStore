@@ -1,11 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
-// import { Routes, Route } from 'react-router-dom';
+
 import { fetchProducts, fetchCategories } from '../services/api';
 
-// import ProductCard from './components/ProductCard';
-// import Pagination from './components/Pagination';
 import Filters from '../components/Filters';
 import SearchInput from '../components/SearchInput';
 import Sidebar from '../components/Sidebar';
