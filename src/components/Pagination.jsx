@@ -1,3 +1,11 @@
+
+/**
+ * Компонент Pagination
+ * @param {currentPage} - текущая страница
+ * @param {totalPages} - общее количество страниц
+ * @param {onPageChange} - функция для смены страницы
+ * @returns 
+ */
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
     return (
       <div className="flex justify-center mt-8">

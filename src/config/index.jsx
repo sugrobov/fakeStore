@@ -1,7 +1,7 @@
 import App from "../containers/App";
 import ProductList from "../components/ProductList";
-import ProductDetail from "../components/ProductDetail";
-import FeedbackForm from "../components/FeedbackForm";
+import ProductDetail from "../containers/ProductDetail";
+import FeedbackForm from "../containers/FeedbackForm";
 import AboutFrom from "../components/AboutFrom";
 
 
@@ -28,11 +28,11 @@ export const routesConfig = () => [
             },
             {
                 path: '/link2',
-                element: 'teplomashik',
+                element: 'Page 2',
             },
             {
                 path: '/link3',
-                element: 'teplomashik3',
+                element: 'Page 3',
             },
             {
                 path: '/feedback',
@@ -40,7 +40,7 @@ export const routesConfig = () => [
             },
             {
                 path: '/about',
-                element: <AboutFrom /> ,
+                element: <AboutFrom />,
             },
             {
                 path: '*',
@@ -92,21 +92,10 @@ export const routesConfig = () => [
  */
 
 export const navLinks = [
-    {
-        path: "/feedback",
-        label: "Обратная связь",
-        mobileProps: {
-            className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
-            activeClass: "bg-blue-50 text-blue-600"
-        },
-        desktopProps: {
-            className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
-            activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
-        }
-    },
+
     {
         path: "/",
-        label: "Link 1",
+        label: "Главная",
         mobileProps: {
             className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
             activeClass: "bg-blue-50 text-blue-600"
@@ -141,17 +130,32 @@ export const navLinks = [
         }
     },
     {
-    path: "/about",
-    label: "О компании",
-    mobileProps: {
-      className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
-      activeClass: "bg-blue-50 text-blue-600"
+        path: "/about",
+        label: "О компании",
+        mobileProps: {
+            className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
+            activeClass: "bg-blue-50 text-blue-600"
+        },
+        desktopProps: {
+            className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
+            activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
+        }
     },
-    desktopProps: {
-      className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
-      activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
-    }
-  }
+    {
+        path: "/feedback",
+        label: "Обратная связь",
+        mobileProps: {
+            className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
+            activeClass: "bg-blue-50 text-blue-600"
+        },
+        desktopProps: {
+            className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
+            activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
+        }
+    },
 ];
 
+/**
+ * Количество элементов на странице
+ */
 export const ITEMS_PER_PAGE = 5;

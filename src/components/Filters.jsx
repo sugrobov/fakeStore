@@ -1,3 +1,14 @@
+/**
+ * Компонент для фильтрации товаров
+ * @param {categories} - массив категорий
+ * @param {selectedCategory} - выбранная категория
+ * @param {onCategoryChange} - функция для изменения выбранной категории
+ * @param {priceRange} - диапазон цен
+ * @param {onPriceChange} - функция для изменения диапазона цен
+ * @param {ratingFilter} - выбранный фильтр по рейтингу
+ * @param {onRatingChange} - функция для изменения фильтра по рейтингу
+ * @returns 
+ */
 export default function Filters({
   categories,
   selectedCategory,

@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import useDebounce from '../hooks/useDebounce';
 
+/**
+ * Функция для поиска товаров
+ * @param {value} - значение для поиска
+ * @param {onChange} - функция для изменения значения
+ * @returns компонент для поиска товаров
+ */
 export default function SearchInput({ value, onChange }) {
   const [displayValue, setDisplayValue] = useState(value);
   const debouncedValue = useDebounce(displayValue, 500);

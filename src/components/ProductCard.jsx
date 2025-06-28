@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Вызывается для отображения карточки товара
+ * @param {product} - product object
+ * @returns 
+ */
 export default function ProductCard({ product }) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">

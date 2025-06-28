@@ -1,3 +1,9 @@
+/**
+ * Компонент для отображения бургер-меню
+ * @param {onClick} - функция для обработки клика
+ * @param {isOpen} - флаг, указывающий, открыто ли меню
+ * @returns 
+ */
 export default function BurgerButton({ onClick, isOpen }) {
   const handleClick = (e) => {
     e.stopPropagation();

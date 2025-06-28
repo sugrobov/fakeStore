@@ -1,6 +1,12 @@
 import Navigation from "./Navigation";
 import BurgerButton from "./BurgerButton";
 
+/**
+ * 
+ * @param {toggleSidebar} - функция для открытия/закрытия бургер меню
+ * @param {isSidebarOpen} - состояние бургер меню
+ * @returns 
+ */
 function Header({ toggleSidebar, isSidebarOpen }) {
     return (
         <header className="bg-white shadow-sm">
