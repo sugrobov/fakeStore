@@ -97,7 +97,7 @@ export default function FeedbackForm() {
 
   if (submitSuccess) {
     return (
-      <div className="max-w-md mx-auto p-6 bg-green-50 rounded-lg border border-green-200">
+      <div className="max-w-md mx-auto p-6 bg-green-50 rounded-lg border border-green-200 min-h-[500px] flex flex-col justify-center">
         <Breadcrumbs currentPage="Обратная связь" />
         <div className="flex items-center">
           <svg className="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,19 +117,22 @@ export default function FeedbackForm() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md min-h-[500px]">
       <Breadcrumbs currentPage="Обратная связь" />
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Форма обратной связи</h2>
       
-      {errors.submit && (
-        <div className="mb-4 p-3 bg-red-50 text-red-600 rounded border border-red-200">
-          {errors.submit}
-        </div>
-      )}
+      {/* Сообщение об ошибке */}
+      <div className="mb-4 min-h-[48px] flex items-center">
+        {errors.submit && (
+          <div className="w-full p-3 bg-red-50 text-red-600 rounded border border-red-200">
+            {errors.submit}
+          </div>
+        )}
+      </div>
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="space-y-1 min-h-[80px]">
+          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
             Имя <span className="text-red-500">*</span>
           </label>
           <input
@@ -140,11 +143,13 @@ export default function FeedbackForm() {
             onChange={handleChange}
             className={`w-full px-3 py-2 border rounded-md ${errors.firstName ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
-          {errors.firstName && <p className="mt-1 text-sm text-red-500">{errors.firstName}</p>}
+          <div className="min-h-[20px]">
+            {errors.firstName && <p className="text-sm text-red-500">{errors.firstName}</p>}
+          </div>
         </div>
         
-        <div>
-          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="space-y-1 min-h-[80px]">
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
             Фамилия <span className="text-red-500">*</span>
           </label>
           <input
@@ -155,11 +160,13 @@ export default function FeedbackForm() {
             onChange={handleChange}
             className={`w-full px-3 py-2 border rounded-md ${errors.lastName ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
-          {errors.lastName && <p className="mt-1 text-sm text-red-500">{errors.lastName}</p>}
+          <div className="min-h-[20px]">
+            {errors.lastName && <p className="text-sm text-red-500">{errors.lastName}</p>}
+          </div>
         </div>
         
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="space-y-1 min-h-[80px]">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
             Телефон
           </label>
           <input
@@ -171,11 +178,13 @@ export default function FeedbackForm() {
             placeholder="+7 (999) 123-45-67"
             className={`w-full px-3 py-2 border rounded-md ${errors.phone ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
-          {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
+          <div className="min-h-[20px]">
+            {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
+          </div>
         </div>
         
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="space-y-1 min-h-[80px]">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
             Email <span className="text-red-500">*</span>
           </label>
           <input
@@ -186,11 +195,13 @@ export default function FeedbackForm() {
             onChange={handleChange}
             className={`w-full px-3 py-2 border rounded-md ${errors.email ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
-          {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+          <div className="min-h-[20px]">
+            {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+          </div>
         </div>
         
-        <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="space-y-1">
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700">
             Сообщение
           </label>
           <textarea
@@ -203,7 +214,7 @@ export default function FeedbackForm() {
           ></textarea>
         </div>
         
-        <div>
+        <div className="pt-2">
           <button
             type="submit"
             disabled={isSubmitting}
