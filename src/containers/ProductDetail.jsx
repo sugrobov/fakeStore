@@ -1,8 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchProduct } from "../services/api";
 import { useParams, Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../components/Breadcrumbs";
 
+/**
+ * Контейнер для отображения детальной информации о продукте
+ * @returns {JSX.Element} 
+ */
 function ProductDetail() {
   const { id } = useParams();
 

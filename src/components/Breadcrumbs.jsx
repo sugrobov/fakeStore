@@ -1,5 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
+/**
+ * Компонент для отображения хлебных крошек
+ * @param {currentPage} - Название текущей страницы
+ * @returns 
+ */
 function Breadcrumbs({ currentPage }) {
   return (
         <div className="mb-6 text-sm text-gray-600">

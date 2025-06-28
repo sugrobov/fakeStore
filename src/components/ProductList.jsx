@@ -1,6 +1,20 @@
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 import { useOutletContext } from "react-router-dom";
+
+/**
+ * Компонент для отображения списка продуктов
+ * 
+ * @param {Array} paginatedProducts - массив продуктов
+ * @param {Number} totalPages - общее количество страниц
+ * @param {Number} currentPage - текущая страница
+ * @param {Function} setCurrentPage - функция для установки текущей страницы
+ * @param {Array} filteredProducts - отфильтрованный массив продуктов
+ * @returns {JSX.Element}   Воврящает JSX элемент
+ * - с сеткой продуктов
+ * - с сообщением о том, что продуктов не найдено
+ * - с пагинацией, если есть продукты
+ */
 function ProductList() {
     const { 
     paginatedProducts,

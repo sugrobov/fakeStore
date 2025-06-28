@@ -1,6 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { navLinks } from '../config';
 
+/**
+ * Компонент навигации для мобильных устройств
+ * @param {mobile} - boolean мобильное устройство
+ * @param {onClose} - функция для закрытия модального окна
+ * @returns 
+ */
 export default function Navigation({ mobile = false, onClose }) {
     const location = useLocation();
 

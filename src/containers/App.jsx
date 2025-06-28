@@ -14,6 +14,10 @@ import useIsMobile from '../hooks/useIsMobile';
 
 import { ITEMS_PER_PAGE } from '../config';
 
+/**
+ * Главный компонент приложения
+ *   
+ */
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('all');

@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import Breadcrumbs from './Breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs';
+
+/**
+ * Компонент формы обратной связи
+ * @returns {JSX.Element}
+ */
 export default function FeedbackForm() {
   const [formData, setFormData] = useState({
     firstName: '',
