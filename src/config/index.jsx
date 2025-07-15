@@ -1,6 +1,7 @@
 import App from "../containers/App";
 import ProductList from "../components/ProductList";
 import ProductDetail from "../containers/ProductDetail";
+import ProductAddForm from "../components/ProductAddForm";
 import FeedbackForm from "../containers/FeedbackForm";
 import AboutFrom from "../components/AboutFrom";
 
@@ -18,34 +19,14 @@ export const routesConfig = () => [
         path: '/',
         element: <App />,
         children: [
-            {
-                index: true,
-                element: <ProductList />,
-            },
-            {
-                path: 'product/:id',
-                element: <ProductDetail />,
-            },
-            {
-                path: '/link2',
-                element: 'Page 2',
-            },
-            {
-                path: '/link3',
-                element: 'Page 3',
-            },
-            {
-                path: '/feedback',
-                element: <FeedbackForm />,
-            },
-            {
-                path: '/about',
-                element: <AboutFrom />,
-            },
-            {
-                path: '*',
-                element: '404',
-            }
+            { index: true, element: <ProductList />, },
+            { path: 'product/:id', element: <ProductDetail />, },
+            { path: '/create', element: <ProductAddForm />, },
+            { path: '/link2', element: 'Page 2', },
+            { path: '/link3', element: 'Page 3', },
+            { path: '/feedback', element: <FeedbackForm />, },
+            { path: '/about', element: <AboutFrom />, },
+            { path: '*', element: '404', }
         ]
     }
 ];
@@ -120,6 +101,18 @@ export const navLinks = [
     {
         path: "/link3",
         label: "Link 3",
+        mobileProps: {
+            className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
+            activeClass: "bg-blue-50 text-blue-600"
+        },
+        desktopProps: {
+            className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
+            activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
+        }
+    },
+    {
+        path: "/create",
+        label: "Добавить",
         mobileProps: {
             className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
             activeClass: "bg-blue-50 text-blue-600"

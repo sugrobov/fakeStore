@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { initializeProducts } from '../store/productsSlice';
 
 import { fetchProducts, fetchCategories } from '../services/api';
 
@@ -31,10 +33,18 @@ export default function App() {
     queryFn: fetchProducts
   });
 
+  const customProducts = useSelector(state => state.products);
+
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories
   });
+
+    const dispatch = useDispatch();
+
+  useEffect(() => {
+       dispatch(initializeProducts());
+   }, [dispatch]);
 
   useEffect(() => {
     setCurrentPage(1); // Сбрасываем страницу при изменении фильтров
@@ -72,7 +82,6 @@ export default function App() {
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
 
   return (
     <div className="min-h-screen bg-gray-50">
