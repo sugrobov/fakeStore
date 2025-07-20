@@ -57,9 +57,11 @@ const handleSubmit = async (e) => {
     await dispatch(
       addProductAsync({
         ...formData,
-        id: productId,
+        id: `custom_${productId}`,
         thumbnail,
         price: Number(formData.price),
+        category: formData.category || 'other',
+        rating: formData.rating || 0,
       })
     ).unwrap(); // unwrap the promise to get the result
 

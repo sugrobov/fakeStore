@@ -33,7 +33,7 @@ export default function App() {
     queryFn: fetchProducts
   });
 
-  const customProducts = useSelector(state => state.products);
+  const customProducts = useSelector(state => state.products.customProducts);
 
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery({
     queryKey: ['categories'],
@@ -111,7 +111,11 @@ export default function App() {
             totalPages,
             currentPage,
             setCurrentPage,
-            filteredProducts
+            filteredProducts,
+            selectedCategory,
+            priceRange,
+            ratingFilter,
+            searchQuery
           }} />
 
         </main>
