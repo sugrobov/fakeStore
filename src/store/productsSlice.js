@@ -1,4 +1,5 @@
 import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
+
 import localforage from "localforage";
 
 const initialState = {
@@ -68,7 +69,12 @@ export const initializeProducts = () => async (dispatch) => {
   try {
     const savedProducts = await localforage.getItem("customProducts");
     if (savedProducts && Array.isArray(savedProducts)) {
-      dispatch(productsSlice.actions.setProducts(savedProducts));
+      // Проверяем, что все продукты имеют префикс 'custom_'
+      const validProducts = savedProducts.map(product => ({
+        ...product,
+        id: `custom_${product.id}` // добавляем, если без префикса
+      }));
+      dispatch(productsSlice.actions.setProducts(validProducts));
     } else {
       console.warn("Данные не найдены или повреждены.");
     }
