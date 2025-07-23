@@ -12,8 +12,8 @@ const initialState = {
 export const addProductAsync = createAsyncThunk(
   "products/addProduct",
   async (product, { rejectWithValue, dispatch }) => {
+    const newProduct = { ...product, id: `custom_${nanoid()}` };
     try {
-      const newProduct = { ...product, id: nanoid() };
       await localforage.setItem("customProducts", [
         ...(await localforage.getItem("customProducts") || []),
         newProduct,
@@ -72,7 +72,7 @@ export const initializeProducts = () => async (dispatch) => {
       // Проверяем, что все продукты имеют префикс 'custom_'
       const validProducts = savedProducts.map(product => ({
         ...product,
-        id: `custom_${product.id}` // добавляем, если без префикса
+        id: product.id.startsWith('custom_') ? product.id : `custom_${product.id}` // добавляем, если без префикса
       }));
       dispatch(productsSlice.actions.setProducts(validProducts));
     } else {
@@ -83,6 +83,6 @@ export const initializeProducts = () => async (dispatch) => {
   }
 };
 
-export const { addProduct, removeProduct, updateProduct, setProducts } 
-= productsSlice.actions;
+export const { addProduct, removeProduct, updateProduct, setProducts }
+  = productsSlice.actions;
 export default productsSlice.reducer;

@@ -5,7 +5,7 @@ import { updateProduct } from '../store/productsSlice';
 
 function ProductEditForm() {
     const { id } = useParams();
-    const productId = parseInt(id);
+    const productId = id;
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

@@ -6,11 +6,14 @@ import { Link } from "react-router-dom";
  * @returns 
  */
 export default function ProductCard({ product }) {
+
+  // const isCustom = product.id.startsWith('custom_');
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
       <div className="h-48 sm:h-56 md:h-64 overflow-hidden">
         <img
-          src={product.thumbnail} 
+          src={product.thumbnail}
           alt={product.title}
           className="w-full h-full object-contain p-4"
         />

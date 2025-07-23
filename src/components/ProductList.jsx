@@ -61,9 +61,9 @@ function ProductList() {
   );
 
   /** какие данные передаем? */
-  console.log("customProducts:", customProducts);
+/*   console.log("customProducts:", customProducts);
   console.log("filteredCustomProducts:", filteredCustomProducts);
-  console.log("paginatedCustomProducts:", paginatedCustomProducts);
+  console.log("paginatedCustomProducts:", paginatedCustomProducts); */
 
   return (
     <>

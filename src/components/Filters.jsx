@@ -71,8 +71,8 @@ export default function Filters({
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
         >
           <option value="all">All Categories</option>
-          {Array.isArray(categories) && categories.map((category) => (
-            <option key={category.slug} value={category.slug}>
+          {Array.isArray(categories) && categories.map((category, index) => (
+            <option key={index} value={category.slug}>
               {category.name}
             </option>
           ))}

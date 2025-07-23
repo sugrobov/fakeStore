@@ -21,9 +21,9 @@ function ProductDetail() {
     queryFn: () => fetchProduct(id),
     enabled: !isCustomProduct, // запрос только для API продуктов
   });
-  
+
   // Поиск пользовательского продукта в Redux
-  const customProduct = isCustomProduct 
+  const customProduct = isCustomProduct
     ? customProducts.find((product) => product.id === id)
     : null;
 
@@ -38,10 +38,15 @@ function ProductDetail() {
     }
   }
 
-  // Отображение ошибки, если пользовательский продукт не найден
+  // если пользовательский продукт не найден
   if (isError || !currentProduct) {
     return <div className="text-center py-8 text-red-500">Product not found</div>;
   }
+
+  console.log('Product ID:', id);
+  console.log('Is custom:', isCustomProduct);
+  console.log('Custom products:', customProducts);
+  console.log('Found product:', customProduct);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
