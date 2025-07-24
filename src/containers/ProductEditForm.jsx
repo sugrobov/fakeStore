@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { updateProduct } from '../store/productsSlice';
-
+import { updateProductAsync } from '../store/productsSlice';
 function ProductEditForm() {
     const { id } = useParams();
     const productId = id;
+    // console.log(productId);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ function ProductEditForm() {
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
-        
+
         if (errors[name]) {
             setErrors(prev => ({ ...prev, [name]: '' }));
         }
@@ -46,7 +46,7 @@ function ProductEditForm() {
             newErrors.price = 'Цена должна быть положительной';
         }
         if (!formData.description.trim()) newErrors.description = 'Описание обязательно';
-        
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -62,26 +62,32 @@ function ProductEditForm() {
         }
     }, [product]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validateForm()) return;
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    try {
+        const updatedProduct = {
+            id: productId,
+            ...formData,
+            price: parseFloat(formData.price),
+            // Добавляем обязательные поля, которые могут отсутствовать
+            thumbnail: product.thumbnail || `https://placehold.co/200x300/666666/FFFFFF?text=${formData.title}`,
+            rating: product.rating || 0,
+            category: product.category || 'other'
+        };
         
-        setIsSubmitting(true);
-        try {
-            const updatedProduct = {
-                id: productId,
-                ...formData,
-                price: parseFloat(formData.price),
-            };
-
-            await dispatch(updateProduct(updatedProduct)).unwrap();
-            navigate('/products');
-        } catch (error) {
-            console.error('Ошибка при обновлении продукта:', error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+        await dispatch(updateProductAsync(updatedProduct)).unwrap();
+        
+        // Явный переход с replace, чтобы избежать проблем с историей
+        navigate('/products', { replace: true });
+    } catch (error) {
+        console.error('Ошибка при обновлении продукта:', error);
+    } finally {
+        setIsSubmitting(false);
+    }
+};
 
     if (!product) return <div>Продукт не найден</div>;
 
@@ -139,9 +145,8 @@ function ProductEditForm() {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 ${
-                        isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                    }`}
+                    className={`w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                        }`}
                 >
                     {isSubmitting ? 'Сохранение...' : 'Сохранить'}
                 </button>

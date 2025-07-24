@@ -24,7 +24,7 @@ function ProductAddForm() {
         published: false,
         thumbnail: '',
         rating: '',
-        category: 'other',
+        category: '',
     });
 
     /**
@@ -89,7 +89,7 @@ function ProductAddForm() {
                     id: productId,
                     thumbnail,
                     price: Number(formData.price),
-                    category: formData.category || 'other',
+                    category: formData.category,
                     rating: Number(formData.rating) || 0,
                 })
             ).unwrap(); // unwrap the promise to get the result

@@ -4,6 +4,7 @@ import ProductDetail from "../containers/ProductDetail";
 import ProductAddForm from "../components/ProductAddForm";
 import FeedbackForm from "../containers/FeedbackForm";
 import AboutFrom from "../components/AboutFrom";
+import ProductEditForm from "../containers/ProductEditForm";
 
 
 /**
@@ -20,12 +21,14 @@ export const routesConfig = () => [
         element: <App />,
         children: [
             { index: true, element: <ProductList />, },
+            { path: 'products', element: <ProductList /> }, // Добавлен путь для списка продуктов после успешного редактирования
             { path: 'product/:id', element: <ProductDetail />, },
             { path: '/create', element: <ProductAddForm />, },
             { path: '/link2', element: 'Page 2', },
             { path: '/link3', element: 'Page 3', },
             { path: '/feedback', element: <FeedbackForm />, },
             { path: '/about', element: <AboutFrom />, },
+            { path: '/product/edit/:id', element: <ProductEditForm />, },
             { path: '*', element: '404', }
         ]
     }
@@ -60,7 +63,7 @@ export const routesConfig = () => [
  * @description 
  * 
  * @example
- * // как использовать :
+ * // 
  * navLinks.map(link => (
  *   <NavLink 
  *     to={link.path}
@@ -146,6 +149,7 @@ export const navLinks = [
             activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
         }
     },
+    
 ];
 
 /**

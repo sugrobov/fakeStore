@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 /**
  * Вызывается для отображения карточки товара
  * @param {product} - product object
+ * @param {onEdit} - function to edit product
  * @returns 
  */
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, isCustom = false }) {
 
   // const isCustom = product.id.startsWith('custom_');
 
@@ -35,15 +36,29 @@ export default function ProductCard({ product }) {
           <span className="text-xs text-gray-500 ml-1">({product.rating})</span>
         </div>
         <div className="flex justify-between items-center">
-          <span className="font-bold text-lg">${product.price}</span>
-          <Link
-            to={`/product/${product.id}`}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors"
-          >
-            View
-          </Link>
+          <span className="font-bold text-lg">${product.price}</span><div className="flex justify-between items-center">
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2">
+            <Link
+              to={`/product/${product.id}`}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors"
+            >
+              View
+            </Link>
+            {isCustom && (
+              <Link
+                to={`/product/edit/${product.id}`}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm transition-colors"
+              >
+                Edit
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </div>
+
   );
 }

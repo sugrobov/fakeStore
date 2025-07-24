@@ -4,7 +4,7 @@ import { routesConfig } from '../config';
 /**
  * Кофигурация для роутинга
  * @param {prop} - объект с пропсами
- * @returns 
+ * @returns
  */
 function AppRoutes(prop) {
   return (

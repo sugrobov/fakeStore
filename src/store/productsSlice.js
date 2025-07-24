@@ -11,23 +11,59 @@ const initialState = {
  */
 export const addProductAsync = createAsyncThunk(
   "products/addProduct",
-  async (product, { rejectWithValue, dispatch }) => {
-    const newProduct = { ...product, id: `custom_${nanoid()}` };
+  async (product, { rejectWithValue }) => {
     try {
-      await localforage.setItem("customProducts", [
-        ...(await localforage.getItem("customProducts") || []),
-        newProduct,
-      ]);
+      const newProduct = {
+        ...product,
+        id: `custom_${nanoid()}`,
+        thumbnail: product.thumbnail || `https://placehold.co/200x300/666666/FFFFFF?text=${encodeURIComponent(product.title)}`,
+        rating: product.rating || 0,
+        category: product.category || 'other'
+      };
+
+      const currentProducts = await localforage.getItem("customProducts") || [];
+      const updatedProducts = [...currentProducts, newProduct];
+
+      await localforage.setItem("customProducts", updatedProducts);
       return newProduct;
     } catch (error) {
-      dispatch(productsSlice.actions.removeProduct(newProduct.id)); // Откат
+      console.error("Ошибка добавления продукта:", error);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const updateProductAsync = createAsyncThunk(
+  "products/updateProduct",
+  async (updatedProduct, { rejectWithValue, dispatch }) => {
+    try {
+      console.log("Обновляем продукт в localForage:", updatedProduct);
+
+      // 1. Получаем продукты
+      const currentProducts = await localforage.getItem("customProducts") || [];
+      console.log("Текущие продукты из localForage:", currentProducts);
+
+      // 2. Обновляем продукт
+      const updatedProducts = currentProducts.map(product =>
+        product.id === updatedProduct.id ? updatedProduct : product
+      );
+      console.log("Обновленный массив продуктов:", updatedProducts);
+
+      // 3. Сохраняем в localForage
+      await localforage.setItem("customProducts", updatedProducts);
+      console.log("Продукты успешно обновлены в localForage");
+
+      // 4. Возвращаем обновленный продукт для Redux
+      return updatedProduct;
+    } catch (error) {
+      console.error("Error updating product in localForage:", error);
       return rejectWithValue(error.message);
     }
   }
 );
 
 /**
- * slice для продуктов
+ * slice продуктов
  */
 export const productsSlice = createSlice({
   name: "products",
@@ -58,8 +94,16 @@ export const productsSlice = createSlice({
       .addCase(addProductAsync.fulfilled, (state, action) => {
         state.customProducts.push(action.payload);
       })
-      .addCase(addProductAsync.rejected, (state, action) => {
+      .addCase(updateProductAsync.fulfilled, (state, action) => {
+        state.customProducts = state.customProducts.map(product =>
+          product.id === action.payload.id ? action.payload : product
+        );
+      })
+      .addCase(addProductAsync.rejected, (_, action) => {
         console.error("Ошибка при добавлении продукта:", action.error);
+      })
+      .addCase(updateProductAsync.rejected, (_, action) => {
+        console.error("Ошибка при обновлении продукта:", action.error);
       });
   }
 });
@@ -67,19 +111,25 @@ export const productsSlice = createSlice({
 // Middleware для загрузки данных при инициализации
 export const initializeProducts = () => async (dispatch) => {
   try {
-    const savedProducts = await localforage.getItem("customProducts");
-    if (savedProducts && Array.isArray(savedProducts)) {
-      // Проверяем, что все продукты имеют префикс 'custom_'
-      const validProducts = savedProducts.map(product => ({
-        ...product,
-        id: product.id.startsWith('custom_') ? product.id : `custom_${product.id}` // добавляем, если без префикса
-      }));
-      dispatch(productsSlice.actions.setProducts(validProducts));
-    } else {
-      console.warn("Данные не найдены или повреждены.");
+    const savedProducts = await localforage.getItem("customProducts") || [];
+    console.log("Инициализация при загрузке:", savedProducts);
+
+    if (!Array.isArray(savedProducts)) {
+      console.error("Не верный формат in localForage");
+      await localforage.setItem("customProducts", []);
+      dispatch(setProducts([]));
+      return;
     }
+
+    const validProducts = savedProducts.filter(product =>
+      product?.id && product.title && !isNaN(product.price)
+    );
+
+    dispatch(setProducts(validProducts));
   } catch (error) {
-    console.error("Ошибка при инициализации продуктов:", error);
+    console.error("Ощибка при инициализации:", error);
+    await localforage.setItem("customProducts", []);
+    dispatch(setProducts([]));
   }
 };
 

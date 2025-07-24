@@ -35,6 +35,8 @@ function ProductList() {
 
   // Фильтрация пользовательских продуктов по тем же критериям, что и API
   const filteredCustomProducts = customProducts.filter((product) => {
+    console.log("Checking product:", product.id, product.title); // 
+
     const matchesCategory =
       selectedCategory === "all" || product.category === selectedCategory;
     const matchesPrice =
@@ -60,10 +62,9 @@ function ProductList() {
     startIndexCustom + ITEMS_PER_PAGE
   );
 
-  /** какие данные передаем? */
-/*   console.log("customProducts:", customProducts);
-  console.log("filteredCustomProducts:", filteredCustomProducts);
-  console.log("paginatedCustomProducts:", paginatedCustomProducts); */
+  const handleEditProduct = (product) => {
+    navigate(`/product/edit/${product.id}`);
+  }
 
   return (
     <>
@@ -77,12 +78,17 @@ function ProductList() {
         </button>
       </div>
 
-      {/* Отображение продуктов в зависимости от выбора */}
+      {/* Отображение продуктов */}
       {showCustom ? (
          paginatedCustomProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {paginatedCustomProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard 
+              key={product.id} 
+              product={product} 
+              onEdit={handleEditProduct}
+              isCustom={true}
+              />
             ))}
           </div>
         ) : (
@@ -94,7 +100,11 @@ function ProductList() {
         apiPaginatedProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {apiPaginatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard 
+              key={product.id} 
+              product={product} 
+              
+              />
             ))}
           </div>
         ) : (
