@@ -92,7 +92,7 @@ function ProductAddForm() {
                     category: formData.category,
                     rating: Number(formData.rating) || 0,
                 })
-            ).unwrap(); // unwrap the promise to get the result
+            ).unwrap(); // unwrap the promise
 
             navigate('/');
         } catch (error) {

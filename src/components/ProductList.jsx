@@ -35,7 +35,7 @@ function ProductList() {
 
   // Фильтрация пользовательских продуктов по тем же критериям, что и API
   const filteredCustomProducts = customProducts.filter((product) => {
-    console.log("Checking product:", product.id, product.title); // 
+    // console.log("Продукт:", product.id, product.title); // 
 
     const matchesCategory =
       selectedCategory === "all" || product.category === selectedCategory;
@@ -109,7 +109,7 @@ function ProductList() {
           </div>
         ) : (
           <div className="text-center py-12 text-gray-500">
-            <h3>No products found.</h3>
+            <h3>Продукт не найден.</h3>
           </div>
         )
       )}
