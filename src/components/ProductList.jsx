@@ -4,6 +4,8 @@ import { useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { ITEMS_PER_PAGE } from "../config";
+import { useDispatch } from "react-redux";
+import { removeProductAsync } from "../store/productsSlice";
 
 /**
  * Компонент для отображения списка продуктов
@@ -22,6 +24,8 @@ function ProductList() {
     searchQuery,
   } = useOutletContext();
 
+  const dispatch = useDispatch();
+
   /**
    * Пагинация для пользовательских продуктов
    */
@@ -32,6 +36,8 @@ function ProductList() {
 
   // Состояние для переключения между API и пользовательскими продуктами
   const [showCustom, setShowCustom] = useState(false);
+
+  const [showPublished, setShowPublished] = useState(false);
 
   // Фильтрация пользовательских продуктов по тем же критериям, что и API
   const filteredCustomProducts = customProducts.filter((product) => {
@@ -49,7 +55,9 @@ function ProductList() {
         searchQuery.trim().toLowerCase()
       );
 
-    return matchesCategory && matchesPrice && matchesRating && matchesSearch;
+      const matchesPublished = !showPublished || product.published;
+ 
+    return matchesCategory && matchesPrice && matchesRating && matchesSearch && matchesPublished;
   });
 
   // Пагинация для пользовательских продуктов
@@ -66,16 +74,37 @@ function ProductList() {
     navigate(`/product/edit/${product.id}`);
   }
 
+    const handleDeleteProduct = (id) => {
+    dispatch(
+      removeProductAsync(id)
+    );
+  }
+
   return (
     <>
       {/* Переключатель источника данных */}
-      <div className="mb-4 flex justify-end">
+      <div className="flex justify-between items-center mb-4">
         <button
           onClick={() => setShowCustom(!showCustom)}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
         >
           {showCustom ? "Показать API-продукты" : "Показать пользовательские"}
+       {/** чек для фильтрации опубликованных */}
         </button>
+                {showCustom && (
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="showPublished"
+              checked={showPublished}
+              onChange={() => setShowPublished(!showPublished)}
+              className="h-4 w-4 text-blue-600 rounded"
+            />
+            <label htmlFor="showPublished" className="ml-2 text-gray-700">
+              Только опубликованные
+            </label>
+          </div>
+        )}
       </div>
 
       {/* Отображение продуктов */}
@@ -88,6 +117,7 @@ function ProductList() {
               product={product} 
               onEdit={handleEditProduct}
               isCustom={true}
+              onDelete={handleDeleteProduct}
               />
             ))}
           </div>

@@ -203,14 +203,22 @@ function ProductEditForm() {
                     <label className="ml-2 block text-sm text-gray-700">Опубликован</label>
                 </div>
 
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                        }`}
-                >
-                    {isSubmitting ? 'Сохранение...' : 'Сохранить'}
-                </button>
+                <div className="flex gap-3 pt-2">
+                    <button
+                        type="button"
+                        onClick={() => navigate(-1)}
+                        className="flex-1 bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-gray-400 transition-colors"
+                    >
+                        Назад
+                    </button>
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={`flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
+                        {isSubmitting ? 'Сохранение...' : 'Сохранить'}
+                    </button>
+                </div>
             </form>
         </div>
     );

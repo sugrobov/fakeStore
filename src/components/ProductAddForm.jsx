@@ -100,6 +100,13 @@ function ProductAddForm() {
         }
     };
 
+    /**
+     * Функция отмены
+     */
+    const handleCancel = () => {
+        navigate(-1); // Возврат на предыдущую страницу
+    };
+
     return (
         <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-6">Добавить продукт</h2>
@@ -180,12 +187,21 @@ function ProductAddForm() {
                     {errors.rating && <p className="text-red-500 text-sm">{errors.rating}</p>}
                 </div>
 
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-                >
-                    Сохранить
-                </button>
+                <div className="flex gap-3 pt-2"> {/* Добавлен контейнер для кнопок */}
+                    <button
+                        type="button"
+                        onClick={handleCancel}
+                        className="flex-1 bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-gray-400 transition-colors"
+                    >
+                        Отмена
+                    </button>
+                    <button
+                        type="submit"
+                        className="flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+                    >
+                        Сохранить
+                    </button>
+                </div>
             </form>
         </div>
     );

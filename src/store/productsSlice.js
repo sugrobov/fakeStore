@@ -33,9 +33,12 @@ export const addProductAsync = createAsyncThunk(
   }
 );
 
+/**
+ * @async Thunk для обновления продукта
+ */
 export const updateProductAsync = createAsyncThunk(
   "products/updateProduct",
-  async (updatedProduct, { rejectWithValue, dispatch }) => {
+  async (updatedProduct, { rejectWithValue }) => {
     try {
       console.log("Обновляем продукт в localForage:", updatedProduct);
 
@@ -57,6 +60,27 @@ export const updateProductAsync = createAsyncThunk(
       return updatedProduct;
     } catch (error) {
       console.error("Error updating product in localForage:", error);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+/**
+ * @async Thunk для удаления продукта
+ */
+export const removeProductAsync = createAsyncThunk(
+  "products/removeProduct",
+  async (productId, { rejectWithValue }) => {
+    try {
+      // console.log("Удаляем продукт с id:", productId);
+
+      // Получаем продукты
+      const currentProducts = await localforage.getItem("customProducts") || [];
+      const updatedProducts = currentProducts.filter(p => p.id !== productId);
+      await localforage.setItem("customProducts", updatedProducts);
+      return productId; // ? - не нужно
+  }  catch (error) {
+      console.error("Ошибка при удалении продукта:", error);
       return rejectWithValue(error.message);
     }
   }
@@ -90,7 +114,7 @@ export const productsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
+   builder
       .addCase(addProductAsync.fulfilled, (state, action) => {
         state.customProducts.push(action.payload);
       })
@@ -99,13 +123,21 @@ export const productsSlice = createSlice({
           product.id === action.payload.id ? action.payload : product
         );
       })
+      .addCase(removeProductAsync.fulfilled, (state, action) => {
+        state.customProducts = state.customProducts.filter(
+          (product) => product.id !== action.payload
+        );
+      })
       .addCase(addProductAsync.rejected, (_, action) => {
         console.error("Ошибка при добавлении продукта:", action.error);
       })
       .addCase(updateProductAsync.rejected, (_, action) => {
         console.error("Ошибка при обновлении продукта:", action.error);
+      })
+      .addCase(removeProductAsync.rejected, (_, action) => {
+        console.error("Ошибка при удалении продукта:", action.error);
       });
-  }
+  },
 });
 
 // Middleware для загрузки данных при инициализации
