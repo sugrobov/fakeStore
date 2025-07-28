@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeProducts } from '../store/productsSlice';
+import { initializeAuth } from '../store/authSlice';
 
 import { fetchProducts, fetchCategories } from '../services/api';
 
@@ -12,14 +13,9 @@ import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 
 import useIsMobile from '../hooks/useIsMobile';
-
-
 import { ITEMS_PER_PAGE } from '../config';
+import localforage from 'localforage';
 
-/**
- * Главный компонент приложения
- *   
- */
 export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -49,6 +45,21 @@ export default function App() {
   useEffect(() => {
     setCurrentPage(1); // Сбрасываем страницу при изменении фильтров
   }, [selectedCategory, priceRange, ratingFilter, searchQuery]);
+
+  /**
+   * Инициализация состояния авторизации из localforage
+   */
+useEffect(() => {
+  localforage.getItem('auth').then((savedAuth) => {
+    if (savedAuth) {
+      dispatch(initializeAuth({
+        isAuthenticated: savedAuth.isAuthenticated,
+        user: savedAuth.user,
+        token: savedAuth.token
+      }));
+    }
+  });
+}, [dispatch]);
 
   const isMobile = useIsMobile();
 

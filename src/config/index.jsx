@@ -6,6 +6,22 @@ import FeedbackForm from "../containers/FeedbackForm";
 import AboutFrom from "../components/AboutFrom";
 import ProductEditForm from "../containers/ProductEditForm";
 
+import Login from "../components/Login";
+import Logout from "../components/Logout";
+
+
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+/**
+ * 
+ * @param {children} - Дочерние компоненты
+ * @returns {маршрут}
+ */
+export const PrivateRoute = ({ children }) => {
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    return isAuthenticated ? children : <Navigate to="/login" />
+}
 
 /**
  * Конфигурация маршрутов
@@ -17,18 +33,27 @@ import ProductEditForm from "../containers/ProductEditForm";
 
 export const routesConfig = () => [
     {
+        path: '/login',
+        element: <Login />,
+    },
+    {
+        path: '/logout',
+        element: <Logout />,
+    },
+
+    {
         path: '/',
         element: <App />,
         children: [
-            { index: true, element: <ProductList />, },
-            { path: 'products', element: <ProductList /> }, // Добавлен путь для списка продуктов после успешного редактирования
-            { path: 'product/:id', element: <ProductDetail />, },
-            { path: '/create', element: <ProductAddForm />, },
-            { path: '/link2', element: 'Page 2', },
-            { path: '/link3', element: 'Page 3', },
-            { path: '/feedback', element: <FeedbackForm />, },
-            { path: '/about', element: <AboutFrom />, },
-            { path: '/product/edit/:id', element: <ProductEditForm />, },
+            { index: true, element: <PrivateRoute><ProductList /></PrivateRoute>, },
+            { path: 'products', element: <PrivateRoute><ProductList /></PrivateRoute> }, // Добавлен путь для списка продуктов после успешного редактирования
+            { path: 'product/:id', element: <PrivateRoute><ProductDetail /></PrivateRoute>, },
+            { path: '/create', element: <PrivateRoute><ProductAddForm /></PrivateRoute>, },
+            // { path: '/link2', element: 'Page 2', },
+            // { path: '/link3', element: 'Page 3', },
+            { path: '/feedback', element: <PrivateRoute><FeedbackForm /></PrivateRoute>, },
+            { path: '/about', element: <PrivateRoute><AboutFrom /></PrivateRoute>, },
+            { path: '/product/edit/:id', element: <PrivateRoute><ProductEditForm /></PrivateRoute>, },
             { path: '*', element: '404', }
         ]
     }
@@ -149,7 +174,7 @@ export const navLinks = [
             activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
         }
     },
-    
+
 ];
 
 /**
