@@ -46,6 +46,7 @@ function Login() {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         required
                         autoComplete="username"
+                        placeholder="admin"
                     />
                 </div>
                 <div>
@@ -57,6 +58,7 @@ function Login() {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                         required
                         autoComplete="current-password"
+                        placeholder="password"
                     />
                 </div>
                 <button

@@ -17,6 +17,15 @@ import { ITEMS_PER_PAGE } from '../config';
 import localforage from 'localforage';
 
 export default function App() {
+  /**
+   * Состояние фильтров и пагинации:
+   * - currentPage: текущая страница
+   * - selectedCategory: выбранная категория
+   * - priceRange: диапазон цен
+   * - ratingFilter: фильтр по рейтингу
+   * - searchQuery: поисковая строка
+   * - isSidebarOpen: состояние открытия/закрытия сайдбара
+   */
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState([0, 1000]);
