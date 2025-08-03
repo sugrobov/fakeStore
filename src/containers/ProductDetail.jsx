@@ -43,10 +43,10 @@ function ProductDetail() {
     return <div className="text-center py-8 text-red-500">Product not found</div>;
   }
 
-  console.log('Product ID:', id);
-  console.log('Is custom:', isCustomProduct);
-  console.log('Custom products:', customProducts);
-  console.log('Found product:', customProduct);
+  // console.log('Product ID:', id);
+  // console.log('Is custom:', isCustomProduct);
+  // console.log('Custom products:', customProducts);
+  // console.log('Found product:', customProduct);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">

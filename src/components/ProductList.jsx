@@ -55,7 +55,10 @@ function ProductList() {
         searchQuery.trim().toLowerCase()
       );
 
-      const matchesPublished = !showPublished || product.published;
+      const isPublished = product.published ?? false;  /**
+       * Если поле published не определено, то считаем, что оно равно false.
+       */
+      const matchesPublished = showPublished ? isPublished : !isPublished;
  
     return matchesCategory && matchesPrice && matchesRating && matchesSearch && matchesPublished;
   });

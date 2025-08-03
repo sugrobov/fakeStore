@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { togglePublishAsync } from "../store/productsSlice";
+// import { useDispatch } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
+import PublicationMarker from "./ui/PublicationMarker";
 
 /**
  * Вызывается для отображения карточки товара
@@ -13,41 +13,18 @@ import ConfirmationModal from "./ConfirmationModal";
  */
 export default function ProductCard({ product, isCustom = false, onDelete }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    return (
+  return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden 
     hover:shadow-lg transition-shadow duration-300 h-full flex flex-col relative">
-            {/* Переключатель статуса опубликованности (только для пользовательских продуктов) */}
+      {/* статус опубликованности (только для пользовательских продуктов) */}
       {isCustom && (
-        <div className="absolute top-2 right-2 z-10">
-          <label className="flex items-center cursor-pointer bg-white bg-opacity-80 px-2 py-1 rounded-full shadow-sm">
-            <span className={`text-xs mr-1 ${product.published ? 'text-green-600 font-medium' : 'text-gray-500'}`}>
-              {product.published ? 'Опубликован' : 'Не опубликован'}
-            </span>
-            <div className="relative inline-block w-10 h-5">
-              <input
-                type="checkbox"
-                className="sr-only"
-                checked={product.published}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  dispatch(togglePublishAsync({ 
-                    productId: product.id, 
-                    currentPublished: product.published 
-                  }));
-                }}
-              />
-              <div className={`block w-10 h-5 rounded-full transition-colors duration-200 ${
-                product.published ? 'bg-green-500' : 'bg-gray-300'
-              }`}></div>
-              <div className={`absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform duration-200 ${
-                product.published ? 'transform translate-x-5' : ''
-              }`}></div>
-            </div>
-          </label>
-        </div>
+        <PublicationMarker
+          product={product}
+        />
+
       )}
 
       <div className="h-48 sm:h-56 md:h-64 overflow-hidden">
@@ -89,7 +66,7 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
             </Link>
-            
+
             {isCustom && (
               <>
                 <Link
