@@ -4,7 +4,7 @@ import { navLinks } from '../config';
 
 /**
  * 
- * @param {isOpen} - boolean если true, то сайдбар будет открыт
+ * @param {isOpen} - boolean: если true, то сайдбар будет открыт
  * @param {onClose} - функция для закрытия сайдбара
  * @param {children} - содержимое сайдбара
  * @returns компонент Sidebar
@@ -29,8 +29,9 @@ export default function Sidebar({ isOpen, onClose, children }) {
       )}
 
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-30 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
-          } md:relative md:translate-x-0 md:w-56`}
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-30 transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:relative md:translate-x-0 md:w-56`}
       >
         <div className="flex flex-col h-full">
           {/* Шапка сайдбара */}

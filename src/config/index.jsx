@@ -114,30 +114,30 @@ export const navLinks = [
             activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
         }
     },
-    {
-        path: "/link2",
-        label: "Link 2",
-        mobileProps: {
-            className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
-            activeClass: "bg-blue-50 text-blue-600"
-        },
-        desktopProps: {
-            className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
-            activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
-        }
-    },
-    {
-        path: "/link3",
-        label: "Link 3",
-        mobileProps: {
-            className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
-            activeClass: "bg-blue-50 text-blue-600"
-        },
-        desktopProps: {
-            className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
-            activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
-        }
-    },
+    // {
+    //     path: "/link2",
+    //     label: "Link 2",
+    //     mobileProps: {
+    //         className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
+    //         activeClass: "bg-blue-50 text-blue-600"
+    //     },
+    //     desktopProps: {
+    //         className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
+    //         activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
+    //     }
+    // },
+    // {
+    //     path: "/link3",
+    //     label: "Link 3",
+    //     mobileProps: {
+    //         className: "block py-3 px-4 text-gray-700 hover:bg-gray-100 rounded transition-colors",
+    //         activeClass: "bg-blue-50 text-blue-600"
+    //     },
+    //     desktopProps: {
+    //         className: "relative py-2 px-1 text-gray-600 hover:text-blue-600 transition-all duration-300 ease-in-out",
+    //         activeIndicator: "absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-200 ease-in-out"
+    //     }
+    // },
     {
         path: "/create",
         label: "Добавить",
