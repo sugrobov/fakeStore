@@ -1,5 +1,9 @@
 
-
+/**
+ * 
+ * @param {product} - продукт 
+ * @returns {JSX} 
+ */
 function Grade({ product }) {
     return (
         <div className="flex items-center mb-2">

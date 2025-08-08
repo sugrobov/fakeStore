@@ -7,7 +7,9 @@
  * @param {onPriceChange} - функция для изменения диапазона цен
  * @param {ratingFilter} - выбранный фильтр по рейтингу
  * @param {onRatingChange} - функция для изменения фильтра по рейтингу
- * @returns 
+ * @param {sortOption} - выбранная опция сортировки
+ * @param {onSortChange} - функция для изменения выбранной опции сортировки
+ * @returns {JXS}
  */
 export default function Filters({
   categories,
@@ -16,7 +18,9 @@ export default function Filters({
   priceRange,
   onPriceChange,
   ratingFilter,
-  onRatingChange
+  onRatingChange,
+  sortOptions,
+  onSortChange
 }) {
   const handleRatingClick = (rating) => {
     onRatingChange(ratingFilter === rating ? 0 : rating);
@@ -41,6 +45,16 @@ export default function Filters({
 
   const isPriceChanged = priceRange[0] !== 0 || priceRange[1] !== 1000;
   const showRatingClear = ratingFilter > 0;
+
+  // Обработчик поля сортировки
+  const handleSortFieldChange = (e) => {
+    onSortChange(e.target.value, sortOptions.direction);
+  };
+
+  // Обработчик направления сортировки
+  const handleSortDirectionChange = (direction) => {
+    onSortChange(sortOptions.field, direction);
+  };
 
   // кнопоки Clear
   const clearButtonStyle = "text-sm px-3 py-1 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-full transition-colors duration-200 flex items-center justify-center";
@@ -154,7 +168,7 @@ export default function Filters({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 h-[54px] items-center">
+        <div className="flex flex-wrap gap-2 items-center pt-1 pb-2">
           {[1, 2, 3, 4, 5].map(rating => (
             <button
               key={rating}
@@ -179,6 +193,47 @@ export default function Filters({
               </div>
             </button>
           ))}
+        </div>
+      </div>
+      {/* Сортировка */}
+      <div>
+        <div className={headerRowStyle}>
+          <h3 className="font-medium text-gray-700">Sorting</h3>
+        </div>
+
+        <div className="space-y-3 py-2">
+          <select
+            value={sortOptions.field}
+            onChange={handleSortFieldChange}
+            className="w-full p-3 border border-gray-300 rounded-lg 
+            focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+            transition-all duration-200"
+          >
+            <option value="title">by name</option>
+            <option value="price">by cost</option>
+            <option value="rating">by rating</option>
+          </select>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleSortDirectionChange('asc')}
+              className={`flex-1 py-2 px-4 rounded border ${sortOptions.direction === 'asc'
+                  ? 'bg-blue-500 text-white border-blue-500'
+                  : 'bg-gray-100 border-gray-300'
+                }`}
+            >
+              asc
+            </button>
+            <button
+              onClick={() => handleSortDirectionChange('desc')}
+              className={`flex-1 py-2 px-4 rounded border ${sortOptions.direction === 'desc'
+                  ? 'bg-blue-500 text-white border-blue-500'
+                  : 'bg-gray-100 border-gray-300'
+                }`}
+            >
+              desc
+            </button>
+          </div>
         </div>
       </div>
     </div>

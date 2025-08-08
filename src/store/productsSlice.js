@@ -106,7 +106,6 @@ export const removeProductAsync = createAsyncThunk(
   async (productId, { rejectWithValue }) => {
     try {
       // console.log("Удаляем продукт с id:", productId);
-
       // Получаем продукты
       const currentProducts = await localforage.getItem("customProducts") || [];
       const updatedProducts = currentProducts.filter(p => p.id !== productId);
@@ -185,10 +184,9 @@ export const productsSlice = createSlice({
 export const initializeProducts = () => async (dispatch) => {
   try {
     const savedProducts = await localforage.getItem("customProducts") || [];
-    console.log("Инициализация при загрузке:", savedProducts);
+    // console.log("Инициализация при загрузке:", savedProducts);
 
     if (!Array.isArray(savedProducts)) {
-      console.error("Не верный формат в localForage");
       await localforage.setItem("customProducts", []);
       dispatch(setProducts([]));
       return;

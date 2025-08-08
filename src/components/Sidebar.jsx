@@ -7,7 +7,7 @@ import { navLinks } from '../config';
  * @param {isOpen} - boolean: если true, то сайдбар будет открыт
  * @param {onClose} - функция для закрытия сайдбара
  * @param {children} - содержимое сайдбара
- * @returns компонент Sidebar
+ * @returns {JSX} - компонент Sidebar
  */
 export default function Sidebar({ isOpen, onClose, children }) {
   const location = useLocation();
