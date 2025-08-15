@@ -198,10 +198,25 @@ export const initializeProducts = () => async (dispatch) => {
 
     dispatch(setProducts(validProducts));
   } catch (error) {
-    console.error("Ощибка при инициализации:", error);
+    console.error("Ошибка при инициализации:", error);
     await localforage.setItem("customProducts", []);
     dispatch(setProducts([]));
   }
+};
+
+// Middleware для сохранения корзины
+export const saveCartMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  if (action.type.startWith("cart/")) {
+
+    const state = store.getState();
+    const cart = state.cart.cartItems;
+    localforage.setItem("cart", cart).catch((error) => {
+      console.error("Ошибка при сохранении корзины в localStorage:", error);
+    });
+
+  }
+  return result;
 };
 
 export const { addProduct, removeProduct, updateProduct, setProducts }

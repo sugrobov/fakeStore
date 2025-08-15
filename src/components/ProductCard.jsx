@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import PublicationMarker from "./ui/PublicationMarker";
 import Grade from "./ui/Grade";
+import { addToCart } from "../store/cartSlice";
 
 /**
  * Вызывается для отображения карточки товара
@@ -14,8 +15,19 @@ import Grade from "./ui/Grade";
  */
 export default function ProductCard({ product, isCustom = false, onDelete }) {
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        thumbnail: product.thumbnail
+      })
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden 
@@ -80,6 +92,12 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
                 </button>
               </>
             )}
+            <button
+              onClick={handleAddToCart}
+              className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+            >
+              В корзину
+            </button>
           </div>
         </div>
       </div>

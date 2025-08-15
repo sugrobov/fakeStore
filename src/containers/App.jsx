@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { initializeProducts } from '../store/productsSlice';
 import { initializeAuth } from '../store/authSlice';
+import { initializeCart } from '../store/cartSlice';
 
 import { fetchProducts, fetchCategories } from '../services/api';
 
@@ -13,7 +14,7 @@ import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 
 import useIsMobile from '../hooks/useIsMobile';
-import { ITEMS_PER_PAGE } from '../config';
+import { ITEMS_PER_PAGE } from '../config'; 
 import localforage from 'localforage';
 
 export default function App() {
@@ -74,7 +75,7 @@ export default function App() {
     queryFn: fetchProducts
   });
 
-  const customProducts = useSelector(state => state.products.customProducts);
+  // const customProducts = useSelector(state => state.products.customProducts);
 
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery({
     queryKey: ['categories'],
@@ -85,6 +86,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(initializeProducts());
+    dispatch(initializeCart())
   }, [dispatch]);
 
   useEffect(() => {
