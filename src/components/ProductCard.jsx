@@ -54,11 +54,11 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
         <div className="flex justify-between items-center">
           <span className="font-bold text-lg">${product.price}</span>
         </div>
-        <div className="flex justify-between items-center mt-4">
-          <div className="flex gap-2">
+        <div className="mt-4 w-full">
+          <div className="flex flex-wrap gap-2">
             <Link
               to={`/product/${product.id}`}
-              className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded transition-colors"
+              className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white p-2 rounded transition-colors w-10 h-10"
               title="Просмотр"
             >
               {/* просмотр */}
@@ -72,7 +72,7 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
               <>
                 <Link
                   to={`/product/edit/${product.id}`}
-                  className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded transition-colors"
+                  className="flex items-center justify-center bg-gray-500 hover:bg-gray-600 text-white p-2 rounded transition-colors w-10 h-10"
                   title="Редактировать"
                 >
                   {/* редактирование */}
@@ -82,7 +82,7 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
                 </Link>
                 <button
                   onClick={() => setShowDeleteModal(true)}
-                  className="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition-colors"
+                  className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white p-2 rounded transition-colors w-10 h-10"
                   title="Удалить"
                 >
                   {/* удаление */}
@@ -94,7 +94,7 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
             )}
             <button
               onClick={handleAddToCart}
-              className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+              className="px-2 md:px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 whitespace-nowrap"
             >
               В корзину
             </button>

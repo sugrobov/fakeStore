@@ -67,8 +67,8 @@ function CartPage() {
               </div>
             ))}
             
-            <div className="p-4 flex justify-between items-center">
-              <div className="text-xl font-bold">
+            <div className="p-4 flex flex-col sm:flex-row justify-between items-center">
+              <div className="text-xl font-bold mb-4 sm:mb-0">
                 Итого: ${total.toFixed(2)}
               </div>
               <div className="p-4 flex gap-4">
