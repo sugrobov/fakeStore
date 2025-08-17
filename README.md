@@ -1,4 +1,8 @@
 #fakeStore
+
+   # FakeStore React App
+   [![Live Demo](https://img.shields.io/badge/demo-live-green?style=for-the-badge)](https://f1sr25.netlify.app/)
+
 ## ✨ Features
 - Fetch fake products with categories, prices, and ratings
 - Filtering and search implemented
