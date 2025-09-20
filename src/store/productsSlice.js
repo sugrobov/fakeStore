@@ -106,7 +106,6 @@ export const removeProductAsync = createAsyncThunk(
   async (productId, { rejectWithValue }) => {
     try {
       // console.log("Удаляем продукт с id:", productId);
-
       // Получаем продукты
       const currentProducts = await localforage.getItem("customProducts") || [];
       const updatedProducts = currentProducts.filter(p => p.id !== productId);
@@ -185,10 +184,9 @@ export const productsSlice = createSlice({
 export const initializeProducts = () => async (dispatch) => {
   try {
     const savedProducts = await localforage.getItem("customProducts") || [];
-    console.log("Инициализация при загрузке:", savedProducts);
+    // console.log("Инициализация при загрузке:", savedProducts);
 
     if (!Array.isArray(savedProducts)) {
-      console.error("Не верный формат в localForage");
       await localforage.setItem("customProducts", []);
       dispatch(setProducts([]));
       return;
@@ -200,10 +198,25 @@ export const initializeProducts = () => async (dispatch) => {
 
     dispatch(setProducts(validProducts));
   } catch (error) {
-    console.error("Ощибка при инициализации:", error);
+    console.error("Ошибка при инициализации:", error);
     await localforage.setItem("customProducts", []);
     dispatch(setProducts([]));
   }
+};
+
+// Middleware для сохранения корзины
+export const saveCartMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  if (action.type.startWith("cart/")) {
+
+    const state = store.getState();
+    const cart = state.cart.cartItems;
+    localforage.setItem("cart", cart).catch((error) => {
+      console.error("Ошибка при сохранении корзины в localStorage:", error);
+    });
+
+  }
+  return result;
 };
 
 export const { addProduct, removeProduct, updateProduct, setProducts }

@@ -5,6 +5,7 @@ import ProductAddForm from "../components/ProductAddForm";
 import FeedbackForm from "../containers/FeedbackForm";
 import AboutFrom from "../components/AboutFrom";
 import ProductEditForm from "../containers/ProductEditForm";
+import CartPage from "../components/CartPage";
 
 import Login from "../components/Login";
 import Logout from "../components/Logout";
@@ -12,6 +13,7 @@ import Logout from "../components/Logout";
 
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
 
 /**
  * 
@@ -49,8 +51,7 @@ export const routesConfig = () => [
             { path: 'products', element: <PrivateRoute><ProductList /></PrivateRoute> }, // Добавлен путь для списка продуктов после успешного редактирования
             { path: 'product/:id', element: <PrivateRoute><ProductDetail /></PrivateRoute>, },
             { path: '/create', element: <PrivateRoute><ProductAddForm /></PrivateRoute>, },
-            // { path: '/link2', element: 'Page 2', },
-            // { path: '/link3', element: 'Page 3', },
+            { path: '/cart', element: <PrivateRoute><CartPage /></PrivateRoute>, },
             { path: '/feedback', element: <PrivateRoute><FeedbackForm /></PrivateRoute>, },
             { path: '/about', element: <PrivateRoute><AboutFrom /></PrivateRoute>, },
             { path: '/product/edit/:id', element: <PrivateRoute><ProductEditForm /></PrivateRoute>, },

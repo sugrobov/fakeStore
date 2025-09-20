@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
 import PublicationMarker from "./ui/PublicationMarker";
 import Grade from "./ui/Grade";
+import { addToCart } from "../store/cartSlice";
 
 /**
  * Вызывается для отображения карточки товара
@@ -14,8 +15,19 @@ import Grade from "./ui/Grade";
  */
 export default function ProductCard({ product, isCustom = false, onDelete }) {
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        thumbnail: product.thumbnail
+      })
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden 
@@ -42,11 +54,11 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
         <div className="flex justify-between items-center">
           <span className="font-bold text-lg">${product.price}</span>
         </div>
-        <div className="flex justify-between items-center mt-4">
-          <div className="flex gap-2">
+        <div className="mt-4 w-full">
+          <div className="flex flex-wrap gap-2">
             <Link
               to={`/product/${product.id}`}
-              className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded transition-colors"
+              className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white p-2 rounded transition-colors w-10 h-10"
               title="Просмотр"
             >
               {/* просмотр */}
@@ -60,7 +72,7 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
               <>
                 <Link
                   to={`/product/edit/${product.id}`}
-                  className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded transition-colors"
+                  className="flex items-center justify-center bg-gray-500 hover:bg-gray-600 text-white p-2 rounded transition-colors w-10 h-10"
                   title="Редактировать"
                 >
                   {/* редактирование */}
@@ -70,7 +82,7 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
                 </Link>
                 <button
                   onClick={() => setShowDeleteModal(true)}
-                  className="bg-red-500 hover:bg-red-600 text-white p-2 rounded transition-colors"
+                  className="flex items-center justify-center bg-red-500 hover:bg-red-600 text-white p-2 rounded transition-colors w-10 h-10"
                   title="Удалить"
                 >
                   {/* удаление */}
@@ -80,6 +92,12 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
                 </button>
               </>
             )}
+            <button
+              onClick={handleAddToCart}
+              className="px-2 md:px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 whitespace-nowrap"
+            >
+              В корзину
+            </button>
           </div>
         </div>
       </div>

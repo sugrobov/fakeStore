@@ -2,16 +2,12 @@ import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
 import { useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ITEMS_PER_PAGE } from "../config";
 import { useDispatch } from "react-redux";
 import { removeProductAsync } from "../store/productsSlice";
 
-/**
- * Компонент для отображения списка продуктов
- */
 function ProductList() {
-  // Получаем данные из контекста маршрута (для API-продуктов)
   const {
     paginatedProducts: apiPaginatedProducts,
     totalPages: apiTotalPages,
@@ -22,27 +18,19 @@ function ProductList() {
     priceRange,
     ratingFilter,
     searchQuery,
+    sortOptions,
+    onSortChange
   } = useOutletContext();
 
   const dispatch = useDispatch();
-
-  /**
-   * Пагинация для пользовательских продуктов
-   */
-  const [currentPageCustom, setCurrentPageCustom] = useState(1);
-
-  // Получаем пользовательские продукты из Redux
+  const [showCustom, setShowCustom] = useState(false);
+  const [showPublished, setShowPublished] = useState(false);
+  
   const customProducts = useSelector((state) => state.products.customProducts);
 
-  // Состояние для переключения между API и пользовательскими продуктами
-  const [showCustom, setShowCustom] = useState(false);
-
-  const [showPublished, setShowPublished] = useState(false);
-
-  // Фильтрация пользовательских продуктов по тем же критериям, что и API
-  const filteredCustomProducts = customProducts.filter((product) => {
-    // console.log("Продукт:", product.id, product.title); // 
-
+  // Фильтрация пользовательских продуктов
+  const filteredCustomProducts = useMemo(() => { 
+   return customProducts.filter((product) => {
     const matchesCategory =
       selectedCategory === "all" || product.category === selectedCategory;
     const matchesPrice =
@@ -55,46 +43,95 @@ function ProductList() {
         searchQuery.trim().toLowerCase()
       );
 
-      const isPublished = product.published ?? false;  /**
-       * Если поле published не определено, то считаем, что оно равно false.
-       */
-      const matchesPublished = showPublished ? isPublished : !isPublished;
+    const isPublished = product.published ?? false;
+    const matchesPublished = showPublished ? isPublished : !isPublished;
  
     return matchesCategory && matchesPrice && matchesRating && matchesSearch && matchesPublished;
   });
+}, [customProducts, selectedCategory, priceRange, ratingFilter, searchQuery, showPublished]);
 
-  // Пагинация для пользовательских продуктов
-  const totalPagesCustom = Math.ceil(
-    filteredCustomProducts.length / ITEMS_PER_PAGE
+  // Функция сортировки
+  const sortProducts = useCallback((products) => {
+    return [...products].sort((a, b) => {
+      let valueA, valueB;
+      
+      switch (sortOptions.field) {
+        case 'title':
+          valueA = a.title.toLowerCase();
+          valueB = b.title.toLowerCase();
+          break;
+        case 'price':
+          valueA = a.price;
+          valueB = b.price;
+          break;
+        case 'rating':
+          valueA = a.rating;
+          valueB = b.rating;
+          break;
+        default:
+          return 0;
+      }
+      
+      if (valueA < valueB) {
+        return sortOptions.direction === 'asc' ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return sortOptions.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [sortOptions]);
+
+  // Сортировка продуктов
+  const sortedApiFilteredProducts = useMemo(() => 
+  sortProducts(apiFilteredProducts), [apiFilteredProducts, sortProducts]);
+
+  const sortedCustomFilteredProducts = useMemo(() => 
+    sortProducts(filteredCustomProducts), 
+  [filteredCustomProducts, sortProducts]);
+
+  /**
+   * сброс страницы при изменении фильтров
+   */
+  useEffect(() => {
+    setApiCurrentPage(1);
+    setCurrentPageCustom(1);
+  }, [selectedCategory, priceRange, ratingFilter, searchQuery, sortOptions]);
+
+  // Пагинация
+  const [currentPageCustom, setCurrentPageCustom] = useState(1);
+
+  const totalPagesCustom = useMemo(() => 
+    Math.ceil(sortedCustomFilteredProducts.length / ITEMS_PER_PAGE
+  ), [sortedCustomFilteredProducts]);
+
+  const paginatedCustomProducts = useMemo(() => {
+    const startIndex = (currentPageCustom - 1) * ITEMS_PER_PAGE;
+    return sortedCustomFilteredProducts.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
   );
-  const startIndexCustom = (currentPageCustom - 1) * ITEMS_PER_PAGE;
-  const paginatedCustomProducts = filteredCustomProducts.slice(
-    startIndexCustom,
-    startIndexCustom + ITEMS_PER_PAGE
-  );
+  }, [sortedCustomFilteredProducts, currentPageCustom]);
 
   const handleEditProduct = (product) => {
     navigate(`/product/edit/${product.id}`);
   }
 
-    const handleDeleteProduct = (id) => {
-    dispatch(
-      removeProductAsync(id)
-    );
+  const handleDeleteProduct = (id) => {
+    dispatch(removeProductAsync(id));
   }
 
   return (
     <>
-      {/* Переключатель источника данных */}
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={() => setShowCustom(!showCustom)}
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
         >
           {showCustom ? "Показать API-продукты" : "Показать пользовательские"}
-       {/** чек для фильтрации опубликованных */}
         </button>
-                {showCustom && (
+        
+        {showCustom && (
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -110,17 +147,16 @@ function ProductList() {
         )}
       </div>
 
-      {/* Отображение продуктов */}
       {showCustom ? (
-         paginatedCustomProducts.length > 0 ? (
+        paginatedCustomProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {paginatedCustomProducts.map((product) => (
               <ProductCard 
-              key={product.id} 
-              product={product} 
-              onEdit={handleEditProduct}
-              isCustom={true}
-              onDelete={handleDeleteProduct}
+                key={product.id} 
+                product={product} 
+                onEdit={handleEditProduct}
+                isCustom={true}
+                onDelete={handleDeleteProduct}
               />
             ))}
           </div>
@@ -129,25 +165,21 @@ function ProductList() {
             <h3>Нет пользовательских продуктов</h3>
           </div>
         )
-      ) : (
-        apiPaginatedProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {apiPaginatedProducts.map((product) => (
-              <ProductCard 
+      ) : apiPaginatedProducts.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {apiPaginatedProducts.map((product) => (
+            <ProductCard 
               key={product.id} 
               product={product} 
-              
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12 text-gray-500">
-            <h3>Продукт не найден.</h3>
-          </div>
-        )
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12 text-gray-500">
+          <h3>Продукт не найден.</h3>
+        </div>
       )}
 
-      {/* Пагинация в зависимости от выбора */}
       {showCustom ? (
         totalPagesCustom > 1 && paginatedCustomProducts.length > 0 && (
           <Pagination
