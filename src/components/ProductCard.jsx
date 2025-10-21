@@ -5,6 +5,8 @@ import ConfirmationModal from "./ConfirmationModal";
 import PublicationMarker from "./ui/PublicationMarker";
 import Grade from "./ui/Grade";
 import { addToCart } from "../store/cartSlice";
+import { LazyProductImage } from "./LazyProductImage";
+
 
 /**
  * Вызывается для отображения карточки товара
@@ -41,11 +43,18 @@ export default function ProductCard({ product, isCustom = false, onDelete }) {
       )}
 
       <div className="h-48 sm:h-56 md:h-64 overflow-hidden">
-        <img
-          src={product.thumbnail}
-          alt={product.title}
-          className="w-full h-full object-contain p-4"
-        />
+        {product.thumbnail ? (
+          <LazyProductImage
+            src={product.thumbnail}
+            alt={product.title}
+            className="w-full h-full object-contain p-4"
+            size="medium"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gray-100">
+            <span className="text-gray-400 text-sm">No Image</span>
+          </div>
+        )}
       </div>
       <div className="p-4 flex-grow flex flex-col">
         <h3 className="font-semibold text-lg mb-2 line-clamp-2">{product.title}</h3>

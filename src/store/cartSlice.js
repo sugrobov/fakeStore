@@ -68,7 +68,7 @@ export const cartMiddleware = store => next => action => {
   
   if (action.type.startsWith("cart/")) {
     const state = store.getState();
-    console.log('Saving cart to localForage:', state.cart.items);
+    // console.log('Saving cart to localForage:', state.cart.items);
     localforage.setItem("cart", state.cart.items);
   }
   

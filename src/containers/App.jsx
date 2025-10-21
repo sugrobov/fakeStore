@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { initializeProducts } from '../store/productsSlice';
 import { initializeAuth } from '../store/authSlice';
 import { initializeCart } from '../store/cartSlice';
