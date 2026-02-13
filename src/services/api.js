@@ -25,7 +25,7 @@ export const fetchProducts = async (params = {}) => {
       const data = await response.json();
       return data.products;
     } catch (error) {
-      console.warn('Real API failed, falling back to mock data');
+      console.warn('Real API failed, falling back to mock data:', error.message);
       // Fallback на мок-данные при ошибке
       return mockApiCall(mockProducts);
     }
@@ -75,18 +75,64 @@ export const fetchProducts = async (params = {}) => {
   return mockApiCall(filteredProducts);
 };
 
-export const fetchCategories = async () => {
+export const fetchCategories = async (products, customProducts = []) => {
   if (!USE_MOCK_DATA) {
     try {
       const response = await fetch('https://dummyjson.com/products/categories');
       if (!response.ok) throw new Error('Network response was not ok');
-      return response.json();
+      const allCategories = await response.json();
+      
+      // Фильтруем категории, оставляя только те, что присутствуют в products
+      if (products) {
+        const allProductCategories = [
+          ...new Set([
+            ...products.map(p => p.category),
+            ...customProducts.map(p => p.category)
+          ])
+        ];
+        
+        return allCategories.filter(category =>
+          allProductCategories.includes(category.slug)
+        );
+      }
+      
+      return allCategories;
     } catch (error) {
-      console.warn('Real API failed, falling back to mock data');
+      console.warn('Real API failed, falling back to mock data:', error.message);
+      // Фильтруем mock категории на основе products
+      if (products) {
+        const allProductCategories = [
+          ...new Set([
+            ...products.map(p => p.category),
+            ...customProducts.map(p => p.category)
+          ])
+        ];
+        
+        const filteredCategories = mockCategories.filter(category =>
+          allProductCategories.includes(category.slug)
+        );
+        return mockApiCall(filteredCategories);
+      }
+      
       return mockApiCall(mockCategories);
     }
   }
 
+  // Для мок-данных также фильтруем категории
+  if (products) {
+    const allProductCategories = [
+      ...new Set([
+        ...products.map(p => p.category),
+        ...customProducts.map(p => p.category)
+      ])
+    ];
+    
+    const filteredCategories = mockCategories.filter(category =>
+      allProductCategories.includes(category.slug)
+    );
+    return mockApiCall(filteredCategories);
+  }
+  
   return mockApiCall(mockCategories);
 };
 
@@ -97,7 +143,7 @@ export const fetchProduct = async (id) => {
       if (!response.ok) throw new Error('Network response was not ok');
       return response.json();
     } catch (error) {
-      console.warn('Real API failed, falling back to mock data');
+      console.warn('Real API failed, falling back to mock data:', error.message);
       // Fallback на поиск в мок-данных
       const product = mockProducts.find(p => p.id === parseInt(id));
       if (!product) throw new Error('Product not found');

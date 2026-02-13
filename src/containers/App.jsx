@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { initializeProducts } from '../store/productsSlice';
 import { initializeAuth } from '../store/authSlice';
 import { initializeCart } from '../store/cartSlice';
@@ -75,11 +75,12 @@ export default function App() {
     queryFn: fetchProducts
   });
 
-  // const customProducts = useSelector(state => state.products.customProducts);
+  const customProducts = useSelector(state => state.products.customProducts);
 
   const { data: categories, isLoading: categoriesLoading, isError: categoriesError } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories
+    queryKey: ['categories', products, customProducts],
+    queryFn: () => fetchCategories(products, customProducts),
+    enabled: !!products
   });
 
   const dispatch = useDispatch();
@@ -130,7 +131,8 @@ export default function App() {
   // Фильтрация данных; оптимизация
    const filteredProducts = useMemo(() => {
     return (products || []).filter(product => {
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+      const matchesCategory = selectedCategory === 'all' ||
+        (product.category && product.category.toLowerCase()) === (selectedCategory && selectedCategory.toLowerCase());
       const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
       const matchesRating = Math.round(product.rating) >= ratingFilter;
       const matchesSearch = searchQuery === '' ||

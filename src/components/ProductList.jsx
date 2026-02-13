@@ -1,6 +1,6 @@
 import Pagination from "./Pagination";
 import ProductCard from "./ProductCard";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ITEMS_PER_PAGE } from "../config";
@@ -13,13 +13,12 @@ function ProductList() {
     totalPages: apiTotalPages,
     currentPage: apiCurrentPage,
     setCurrentPage: setApiCurrentPage,
-    filteredProducts: apiFilteredProducts,
+    // filteredProducts: apiFilteredProducts,
     selectedCategory,
     priceRange,
     ratingFilter,
     searchQuery,
-    sortOptions,
-    onSortChange
+    sortOptions
   } = useOutletContext();
 
   const dispatch = useDispatch();
@@ -44,7 +43,7 @@ function ProductList() {
       );
 
     const isPublished = product.published ?? false;
-    const matchesPublished = showPublished ? isPublished : !isPublished;
+    const matchesPublished = showPublished ? isPublished : true;
  
     return matchesCategory && matchesPrice && matchesRating && matchesSearch && matchesPublished;
   });
@@ -82,9 +81,9 @@ function ProductList() {
     });
   }, [sortOptions]);
 
-  // Сортировка продуктов
-  const sortedApiFilteredProducts = useMemo(() => 
-  sortProducts(apiFilteredProducts), [apiFilteredProducts, sortProducts]);
+  // Сортировка API продуктов
+  // const sortedApiFilteredProducts = useMemo(() =>
+  // sortProducts(apiFilteredProducts), [apiFilteredProducts, sortProducts]);
 
   const sortedCustomFilteredProducts = useMemo(() => 
     sortProducts(filteredCustomProducts), 
@@ -113,6 +112,8 @@ function ProductList() {
   );
   }, [sortedCustomFilteredProducts, currentPageCustom]);
 
+  const navigate = useNavigate();
+  
   const handleEditProduct = (product) => {
     navigate(`/product/edit/${product.id}`);
   }
