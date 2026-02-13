@@ -1,26 +1,26 @@
 // Карта категорий
-const categoryMap = {
-  'smartphones': 'smartphones',
-  'laptops': 'laptops', 
-  'fragrances': 'fragrances',
-  'skincare': 'skincare',
-  'groceries': 'groceries',
-  'home-decoration': 'home-decoration',
-  'furniture': 'furniture',
-  'tops': 'tops',
-  'womens-dresses': 'womens-dresses',
-  'womens-shoes': 'womens-shoes',
-  'mens-shirts': 'mens-shirts',
-  'mens-shoes': 'mens-shoes',
-  'mens-watches': 'mens-watches',
-  'womens-watches': 'womens-watches',
-  'womens-bags': 'womens-bags',
-  'womens-jewellery': 'womens-jewellery',
-  'sunglasses': 'sunglasses',
-  'automotive': 'automotive',
-  'motorcycle': 'motorcycle',
-  'lighting': 'lighting'
-};
+// const categoryMap = {
+//   'smartphones': 'smartphones',
+//   'laptops': 'laptops', 
+//   'fragrances': 'fragrances',
+//   'skincare': 'skincare',
+//   'groceries': 'groceries',
+//   'home-decoration': 'home-decoration',
+//   'furniture': 'furniture',
+//   'tops': 'tops',
+//   'womens-dresses': 'womens-dresses',
+//   'womens-shoes': 'womens-shoes',
+//   'mens-shirts': 'mens-shirts',
+//   'mens-shoes': 'mens-shoes',
+//   'mens-watches': 'mens-watches',
+//   'womens-watches': 'womens-watches',
+//   'womens-bags': 'womens-bags',
+//   'womens-jewellery': 'womens-jewellery',
+//   'sunglasses': 'sunglasses',
+//   'automotive': 'automotive',
+//   'motorcycle': 'motorcycle',
+//   'lighting': 'lighting'
+// };
 
 export const mockProducts = [
   {
